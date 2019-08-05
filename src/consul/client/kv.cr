@@ -1,13 +1,5 @@
 require "base64"
-
-module Types
-  class KV
-    JSON.mapping(
-      address: String,
-      location: {type: Location, nilable: true},
-    )
-  end
-end
+require "./types/*"
 
 module Consul
   class Client
