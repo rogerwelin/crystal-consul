@@ -1,4 +1,4 @@
-require "./consul/**"
+require "./consul/*"
 
 module Consul
   VERSION = "0.1.0"
