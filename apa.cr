@@ -18,3 +18,9 @@ puts dc
 
 services = c.catalog.list_services
 puts services
+
+leader = c.status.get_leader
+puts leader
+
+peers = c.status.list_raft_peers
+puts peers
