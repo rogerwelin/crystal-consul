@@ -62,6 +62,12 @@ module Consul
         return JSON.parse(resp.body)
     end
 
+    def list_nodes_for_service()
+    end
+
+    def list_services_for_node()
+    end
+
     def list_datacenters() : JSON::Any
         resp = HTTP::Client.get("#{base_url}/datacenters")
         return JSON.parse(resp.body)
