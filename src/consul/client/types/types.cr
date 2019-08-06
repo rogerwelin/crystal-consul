@@ -3,8 +3,8 @@ require "json"
 module Types
   class KV
     JSON.mapping(
-      key: {type: String, name: "Key"},
-      value: {type: String, name: "Value"},
+      key: {type: String, key: "Key"},
+      value: {type: String, key: "Value"},
     )
   end
 end

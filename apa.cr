@@ -1,6 +1,6 @@
 require "./src/*"
 
-c  = Consul.client("localhost", 8500)
+c = Consul.client("localhost", 8500)
 puts c.endpoint
-puts c.apa
-puts c.kv.get_key()
+kv = c.kv.get_key("apa")
+puts kv.value
