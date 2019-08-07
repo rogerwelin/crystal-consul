@@ -1,3 +1,5 @@
+require "../types/*"
+
 module Consul
   class Catalog
 
@@ -14,7 +16,8 @@ module Consul
         datacenter : String? = nil,
         service = {} of String => String,
         check = {} of String => String,
-        node_meta = {} of String => String)
+        node_meta = {} of String => String
+        )
 
         data = {"Node" => node, "Address" => address}
 
@@ -53,8 +56,24 @@ module Consul
         node : String,
         datacenter : String? = nil,
         check_id : String? = nil,
-        service_id : String? = nil?
-    )
+        service_id : String? = nil?)
+
+        data = {"Node" => node}
+
+        unless datacenter.nil?
+            data = data.merge({"Datacenter" => datacenter})
+        end
+
+        unless check_id.nil?
+          data = data.merge({"CheckID" => check_id})
+        end
+
+        unless service_id.nil?
+          data = data.merge({"ServiceID" => service_id})
+        end
+
+        resp = HTTP::Client.put("#{base_url}/deregister", body: data.to_json)
+        puts resp.status_code
     end
 
     def list_services() : JSON::Any
@@ -73,9 +92,11 @@ module Consul
         return JSON.parse(resp.body)
     end
 
-    def list_nodes()
+    def list_nodes() : Array(Consul::Types::Node)
+      resp = HTTP::Client.get("#{base_url}/nodes")
+      nodes = Array(Consul::Types::Node).from_json(resp.body)
+      return nodes
     end
-
 
   end
 end

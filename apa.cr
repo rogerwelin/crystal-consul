@@ -13,14 +13,31 @@ c.catalog.register(
   address: "123.132.13",
   service: service)
 
+puts "-------------------"
 dc = c.catalog.list_datacenters
 puts dc
+puts "-------------------"
 
+puts "-------------------"
 services = c.catalog.list_services
 puts services
+puts "-------------------"
 
+puts "-------------------"
+nodes = c.catalog.list_nodes
+# c.catalog.deregister("")
+puts nodes
+nodes.each do |node|
+  puts "#{node.id} => #{node.node}"
+end
+puts "-------------------"
+
+puts "-------------------"
 leader = c.status.get_leader
 puts leader
+puts "-------------------"
 
+puts "-------------------"
 peers = c.status.list_raft_peers
 puts peers
+puts "-------------------"
