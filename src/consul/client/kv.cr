@@ -1,5 +1,5 @@
 require "base64"
-require "./types/*"
+require "../types/*"
 
 module Consul
   class KV
@@ -10,17 +10,10 @@ module Consul
         @base_url = "http://#{endpoint}:#{port}/v1/kv"
     end
 
-    struct KvType
-      getter key, value
-
-      def initialize(@key : String, @value : String)
-      end
-    end
-
-    def get_key(path : String) : KvType
+    def get_key(path : String) : Consul::Types::KV::KvType
       resp = HTTP::Client.get("#{base_url}/#{path}")
-      kv = Array(Types::KV).from_json(resp.body)
-      keyval = KvType.new(kv.first.key, Base64.decode_string(kv.first.value))
+      kv = Array(Consul::Types::KV).from_json(resp.body)
+      keyval = Consul::Types::KV::KvType.new(kv.first.key, Base64.decode_string(kv.first.value))
       return keyval
     end
 
