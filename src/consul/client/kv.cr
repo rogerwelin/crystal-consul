@@ -10,10 +10,10 @@ module Consul
         @base_url = "http://#{endpoint}:#{port}/v1/kv"
     end
 
-    def get_key(path : String) : Consul::Types::KV::KvType
-      resp = HTTP::Client.get("#{base_url}/#{path}")
-      kv = Array(Consul::Types::KV).from_json(resp.body)
-      keyval = Consul::Types::KV::KvType.new(kv.first.key, Base64.decode_string(kv.first.value))
+    def get_key(path : String) : Consul::Types::KV::KvPair
+      resp   = HTTP::Client.get("#{base_url}/#{path}")
+      kv     = Array(Consul::Types::KV).from_json(resp.body)
+      keyval = Consul::Types::KV::KvPair.new(kv.first.key, Base64.decode_string(kv.first.value))
       return keyval
     end
 

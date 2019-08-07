@@ -9,7 +9,7 @@ module Consul
         value:  {type: String, key: "Value"},
       )
 
-      struct KvType
+      struct KvPair
         getter key, value
 
         def initialize(@key : String, @value : String)

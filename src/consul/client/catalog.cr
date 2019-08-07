@@ -88,7 +88,7 @@ module Consul
 
     # list_nodes_for_service returns the nodes providing a service in a given datacenter
     def list_nodes_for_service(service : String) : Array(Consul::Types::NodeService)
-        resp = HTTP::Client.get("#{base_url}/service/#{service}")
+        resp  = HTTP::Client.get("#{base_url}/service/#{service}")
         nodes = Array(Consul::Types::NodeService).from_json(resp.body)
         return nodes
     end
@@ -107,7 +107,7 @@ module Consul
 
     # list_nodes returns the nodes registered in a given datacenter
     def list_nodes() : Array(Consul::Types::Node)
-      resp = HTTP::Client.get("#{base_url}/nodes")
+      resp  = HTTP::Client.get("#{base_url}/nodes")
       nodes = Array(Consul::Types::Node).from_json(resp.body)
       return nodes
     end
