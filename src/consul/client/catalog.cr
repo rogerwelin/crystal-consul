@@ -9,6 +9,8 @@ module Consul
         @base_url = "http://#{endpoint}:#{port}/v1/catalog"
     end
 
+    # register is a low-level mechanism for registering or updating entries in the catalog. 
+    # It is usually preferable to instead use the agent endpoints for registration as they are simpler and perform anti-entropy
     def register(
         node : String, 
         address : String,
@@ -52,6 +54,8 @@ module Consul
         end
     end
 
+    # deregister is a low-level mechanism for directly removing entries from the Catalog. 
+    # It is usually preferable to instead use the agent endpoints for deregistration as they are simpler and perform anti-entropy
     def deregister(
         node : String,
         datacenter : String? = nil,
@@ -76,22 +80,32 @@ module Consul
         puts resp.status_code
     end
 
+    # list_services returns the services registered in a given datacenter
     def list_services() : JSON::Any
         resp = HTTP::Client.get("#{base_url}/services")
         return JSON.parse(resp.body)
     end
 
-    def list_nodes_for_service()
+    # list_nodes_for_service returns the nodes providing a service in a given datacenter
+    def list_nodes_for_service(service : String) : Array(Consul::Types::NodeService)
+        resp = HTTP::Client.get("#{base_url}/service/#{service}")
+        nodes = Array(Consul::Types::NodeService).from_json(resp.body)
+        return nodes
     end
 
+    # list_services_for_node returns the node's registered services
     def list_services_for_node()
     end
 
+    # list_datacenters returns the list of all known datacenters. 
+    # The datacenters will be sorted in ascending order based on the estimated median 
+    # round trip time from the server to the servers in that datacenter
     def list_datacenters() : JSON::Any
         resp = HTTP::Client.get("#{base_url}/datacenters")
         return JSON.parse(resp.body)
     end
 
+    # list_nodes returns the nodes registered in a given datacenter
     def list_nodes() : Array(Consul::Types::Node)
       resp = HTTP::Client.get("#{base_url}/nodes")
       nodes = Array(Consul::Types::Node).from_json(resp.body)

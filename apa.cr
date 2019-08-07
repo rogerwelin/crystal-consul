@@ -35,6 +35,11 @@ end
 puts "-------------------"
 
 puts "-------------------"
+nodes = c.catalog.list_nodes_for_service(service: "redis")
+puts nodes
+puts "-------------------"
+
+puts "-------------------"
 leader = c.status.get_leader
 puts leader
 puts "-------------------"
