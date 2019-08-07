@@ -1,5 +1,7 @@
 require "./src/*"
 
+# https://crystal-lang.org/api/0.30.0/JSON/Serializable.html
+
 c = Consul.client(endpoint: "localhost", port: 8500)
 puts c.endpoint
 c.kv.create_key("animal/apa", "gorilla")
