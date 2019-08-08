@@ -184,18 +184,36 @@ module Consul
 
     # ttl_check_pass is used with a TTL type check to set the status of the check to passing and to reset the TTL clock
     def ttl_check_pass(check_id : String, note : String? = nil)
+      Consul::Util.put("#{base_url}/check/pass/#{check_id}")
     end
 
     # ttl_check_warn is used with a TTL type check to set the status of the check to warning and to reset the TTL clock
     def ttl_check_warn(check_id : String, note : String? = nil)
+      Consul::Util.put("#{base_url}/check/warn/#{check_id}")
     end
 
     # ttl_check_fail is used with a TTL type check to set the status of the check to critical and to reset the TTL clock
     def ttl_check_fail(check_id : String, note : String? = nil)
+      Consul::Util.put("#{base_url}/check/fail/#{check_id}")
     end
 
     # ttl_check_upate is used with a TTL type check to set the status of the check and to reset the TTL clock
-    def ttl_check_update(check_id : String, note : String? = nil, output : String? = nil)
+    def ttl_check_update(check_id : String, status : String? = nil, output : String? = nil)
+      data = Hash(String, String)
+
+      unless status.nil?
+        data["Status"] = status
+      end
+
+      unless output.nil?
+        data["Output"] = output
+      end
+
+      if data.empty?
+        Consul::Util.put("#{base_url}/check/update/#{check_id}")
+      else
+        Consul::Util.put("#{base_url}/check/update/#{check_id}", data: data.to_json)
+      end
     end
 
   end
