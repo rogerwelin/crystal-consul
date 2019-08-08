@@ -42,6 +42,7 @@ module Consul
       when 400 then raise Consul::Error::BadRequest.new(resp)
       when 401 then raise Consul::Error::Unauthorized.new(resp)
       when 403 then raise Consul::Error::Forbidden.new(resp)
+      when 408 then raise Consul::Error::RequestTimeout.new(resp)
       when 404 then raise Consul::Error::NotFound.new(resp)
       when 413 then raise Consul::Error::PayloadTooLarge.new(resp)
       when 500 then raise Consul::Error::InternalServerError.new(resp)
