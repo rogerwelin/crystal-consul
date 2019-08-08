@@ -1,4 +1,5 @@
 require "../types/*"
+require "../util"
 
 module Consul
   class Catalog
@@ -46,7 +47,7 @@ module Consul
         puts data.to_json
 
         begin
-          resp = HTTP::Client.put("#{base_url}/register", body: data.to_json)
+          resp = Consul::Util.put("#{base_url}/register", data: data.to_json)
           #puts resp.status_code
           puts resp.body
         rescue ex
@@ -76,19 +77,19 @@ module Consul
           data = data.merge({"ServiceID" => service_id})
         end
 
-        resp = HTTP::Client.put("#{base_url}/deregister", body: data.to_json)
+        resp = Consul::Util.put("#{base_url}/deregister", data: data.to_json)
         puts resp.status_code
     end
 
     # list_services returns the services registered in a given datacenter
     def list_services() : JSON::Any
-        resp = HTTP::Client.get("#{base_url}/services")
+        resp = Consul::Util.get("#{base_url}/services")
         return JSON.parse(resp.body)
     end
 
     # list_nodes_for_service returns the nodes providing a service in a given datacenter
     def list_nodes_for_service(service : String) : Array(Consul::Types::NodeService)
-        resp  = HTTP::Client.get("#{base_url}/service/#{service}")
+        resp  = Consul::Util.get("#{base_url}/service/#{service}")
         nodes = Array(Consul::Types::NodeService).from_json(resp.body)
         return nodes
     end
@@ -101,13 +102,13 @@ module Consul
     # The datacenters will be sorted in ascending order based on the estimated median 
     # round trip time from the server to the servers in that datacenter
     def list_datacenters() : Array(String)
-        resp = HTTP::Client.get("#{base_url}/datacenters")
+        resp = Consul::Util.get("#{base_url}/datacenters")
         dc = Array(String).from_json(resp.body)
     end
 
     # list_nodes returns the nodes registered in a given datacenter
     def list_nodes() : Array(Consul::Types::Node)
-      resp  = HTTP::Client.get("#{base_url}/nodes")
+      resp  = Consul::Util.get("#{base_url}/nodes")
       nodes = Array(Consul::Types::Node).from_json(resp.body)
       return nodes
     end

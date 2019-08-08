@@ -1,3 +1,5 @@
+require "../util"
+
 module Consul
   class Status
     getter endpoint, port, base_url
@@ -8,7 +10,7 @@ module Consul
 
     # get_leader returns the Raft leader for the datacenter in which the agent is running
     def get_leader() : String
-      resp = HTTP::Client.get("#{base_url}/leader")
+      resp = Consul::Util.get("#{base_url}/leader")
       return resp.body
     end
 
@@ -20,7 +22,7 @@ module Consul
         url = "#{url}?dc=#{datacenter}"
       end
 
-      resp = HTTP::Client.get("#{url}")
+      resp = Consul::Util.get("#{url}")
       peers = Array(String).from_json(resp.body)
       return peers
     end
