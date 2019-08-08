@@ -1,4 +1,4 @@
-# consul.cr
+# crystal-consul
 
 TODO: Write a description here
 
@@ -9,7 +9,7 @@ TODO: Write a description here
    ```yaml
    dependencies:
      consul.cr:
-       github: your-github-user/consul.cr
+       github: your-github-user/crystal-consul
    ```
 
 2. Run `shards install`
