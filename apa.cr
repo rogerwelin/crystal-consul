@@ -63,6 +63,7 @@ check2 = {"HTTP" => "http://localhost:8500", "Interval" => "10s"}
 c.agent.register_service(name: "kallekula", port: 7777, tags: ["master"], check: check)
 c.agent.register_service(name: "kallekula2", port: 7778, tags: ["stage"], check: check2)
 c.agent.deregister_service(service_id: "kallekula")
+c.agent.register_service(name: "kallekula", port: 7777, tags: ["master"], check: check)
 puts "-------------------"
 
 puts "-------------------"
