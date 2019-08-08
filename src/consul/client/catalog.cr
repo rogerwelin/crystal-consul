@@ -13,13 +13,13 @@ module Consul
     # register is a low-level mechanism for registering or updating entries in the catalog. 
     # It is usually preferable to instead use the agent endpoints for registration as they are simpler and perform anti-entropy
     def register(
-        node : String, 
-        address : String,
-        id : String? = nil,
-        datacenter : String? = nil,
-        service = {} of String => String,
-        check = {} of String => String,
-        node_meta = {} of String => String
+        node        : String, 
+        address     : String,
+        id          : String? = nil,
+        datacenter  : String? = nil,
+        service     : Hash(String, String)? = nil,
+        check       : Hash(String, String)? = nil,
+        node_meta   : Hash(String, String)? = nil
         )
 
         data = {"Node" => node, "Address" => address}
@@ -32,15 +32,15 @@ module Consul
           data["Datacenter"] = datacenter
         end
 
-        unless service.empty?
+        unless service.nil?
           data = data.merge({"Service" => service})
         end
 
-        unless check.empty?
+        unless check.nil?
           data = data.merge({"Check" => check})
         end
 
-        unless node_meta.empty?
+        unless node_meta.nil?
           data = data.merge({"NodeMeta" => service})
         end
 
@@ -58,10 +58,10 @@ module Consul
     # deregister is a low-level mechanism for directly removing entries from the Catalog. 
     # It is usually preferable to instead use the agent endpoints for deregistration as they are simpler and perform anti-entropy
     def deregister(
-        node : String,
-        datacenter : String? = nil,
-        check_id : String? = nil,
-        service_id : String? = nil?)
+        node        : String,
+        datacenter  : String? = nil,
+        check_id    : String? = nil,
+        service_id  : String? = nil?)
 
         data = {"Node" => node}
 

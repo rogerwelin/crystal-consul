@@ -22,7 +22,7 @@ module Consul
         url = "#{url}?dc=#{datacenter}"
       end
 
-      resp = Consul::Util.get("#{url}")
+      resp  = Consul::Util.get("#{url}")
       peers = Array(String).from_json(resp.body)
       return peers
     end

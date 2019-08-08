@@ -30,7 +30,7 @@ module Consul
       return resp
     end
 
-    # overloadin put method
+    # overloading put method
     def put(path : String) : HTTP::Client::Response
       resp = HTTP::Client.put(path)
       validate_response(resp)
