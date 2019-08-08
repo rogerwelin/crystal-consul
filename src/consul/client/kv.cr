@@ -14,7 +14,7 @@ module Consul
     # get_key returns the specified key. If no key exists at the given path, a 404 is returned instead of a 200 response
     def get_key(path : String) : Consul::Types::KV::KvPair
       resp   = Consul::Util.get("#{base_url}/#{path}")
-      kv     = Array(Consul::Types::KV).from_json(resp.body)
+      kv     = Array(Consul::Types::KV::KV).from_json(resp.body)
       keyval = Consul::Types::KV::KvPair.new(kv.first.key, Base64.decode_string(kv.first.value))
       return keyval
     end
