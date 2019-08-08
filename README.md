@@ -9,7 +9,7 @@ TODO: Write a description here
    ```yaml
    dependencies:
      consul.cr:
-       github: your-github-user/crystal-consul
+       github: rogerwelin/crystal-consul
    ```
 
 2. Run `shards install`
@@ -17,7 +17,7 @@ TODO: Write a description here
 ## Usage
 
 ```crystal
-require "consul.cr"
+require "consul"
 ```
 
 TODO: Write usage instructions here
@@ -28,7 +28,7 @@ TODO: Write development instructions here
 
 ## Contributing
 
-1. Fork it (<https://github.com/your-github-user/consul.cr/fork>)
+1. Fork it (<https://github.com/rogerwelin/crystal-consul/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
@@ -36,4 +36,4 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [your-name-here](https://github.com/your-github-user) - creator and maintainer
+- [Roger Welin](https://github.com/rogerwelin) - creator and maintainer
