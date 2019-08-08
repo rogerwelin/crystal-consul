@@ -183,19 +183,19 @@ module Consul
     end
 
     # ttl_check_pass is used with a TTL type check to set the status of the check to passing and to reset the TTL clock
-    def ttl_check_pass()
+    def ttl_check_pass(check_id : String, note : String? = nil)
     end
 
     # ttl_check_warn is used with a TTL type check to set the status of the check to warning and to reset the TTL clock
-    def ttl_check_warn()
+    def ttl_check_warn(check_id : String, note : String? = nil)
     end
 
     # ttl_check_fail is used with a TTL type check to set the status of the check to critical and to reset the TTL clock
-    def ttl_check_fail()
+    def ttl_check_fail(check_id : String, note : String? = nil)
     end
 
     # ttl_check_upate is used with a TTL type check to set the status of the check and to reset the TTL clock
-    def ttl_check_update()
+    def ttl_check_update(check_id : String, note : String? = nil, output : String? = nil)
     end
 
   end
