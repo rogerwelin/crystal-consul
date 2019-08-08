@@ -48,18 +48,48 @@ module Consul
       end
     end
 
-    class ServiceConf
-      JSON.mapping(
-        kind:                 {type: String, key: "Kind", nilable: true},
-        id:                   {type: String, key: "ID"},
-        service:              {type: String, key: "Service"},
-        tags:                 {type: Array(String), key: "Tags", nilable: true},
-        meta:                 {type: Hash(String, String), key: "Meta", nilable: true},
-        address:              {type: String, key: "Address"},
-        port:                 {type: Int32, key: "Port"},
-        enable_tag_override:  {type: Bool, key: "EnableTagOverride"},
-        content_hash:         {type: String, key: "ContentHash"}
-      )
+    module Agent
+      class ServiceConf
+        JSON.mapping(
+          kind:                 {type: String, key: "Kind", nilable: true},
+          id:                   {type: String, key: "ID"},
+          service:              {type: String, key: "Service"},
+          tags:                 {type: Array(String), key: "Tags", nilable: true},
+          meta:                 {type: Hash(String, String), key: "Meta", nilable: true},
+          address:              {type: String, key: "Address"},
+          port:                 {type: Int32, key: "Port"},
+          enable_tag_override:  {type: Bool, key: "EnableTagOverride"},
+          content_hash:         {type: String, key: "ContentHash"}
+        )
+      end
+
+      class Service
+        JSON.mapping(
+          id:       {type: String, key: "ID"},
+          service:  {type: String, key: "Service"},
+          tags:     {type: Array(String), key: "Tags"},
+          port:     {type: Int32, key: "Port"},
+          address:  {type: String, key: "Address"}
+        )
+      end
+
+      class Check 
+        JSON.mapping(
+          node:     {type: String, key: "Node"},
+          check_id: {type: String, key: "CheckID"},
+          name:     {type: String, key: "Name"},
+          status:   {type: String, key: "Status"},
+          output:   {type: String, key: "Output"}
+        )
+      end
+
+      class ServiceHealth
+        JSON.mapping(
+          aggregated_status:  {type: String, key: "AggregatedStatus"},
+          service:            {type: Service, key: "Service"},
+          checks:             {type: Array(Check), key: "Checks"}
+        )
+      end
     end
 
   end

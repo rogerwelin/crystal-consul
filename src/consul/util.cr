@@ -30,6 +30,13 @@ module Consul
       return resp
     end
 
+    # overloadin put method
+    def put(path : String) : HTTP::Client::Response
+      resp = HTTP::Client.put(path)
+      validate_response(resp)
+      return resp
+    end
+
     private def validate_response(resp : HTTP::Client::Response)
       puts resp.status_code
       case resp.status_code

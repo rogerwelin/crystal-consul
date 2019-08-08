@@ -1,3 +1,4 @@
+require "uri"
 require "../util"
 
 module Consul
@@ -16,9 +17,15 @@ module Consul
     end
 
     # get_service_conf returns the full service definition for a single service instance registered on the local agent
-    def get_service_conf(name : String) : Consul::Types::ServiceConf
+    def get_service_conf(name : String) : Consul::Types::Agent::ServiceConf
       resp = Consul::Util.get("#{base_url}/service/#{name}")
-      return Consul::Types::ServiceConf.from_json(resp.body)
+      return Consul::Types::Agent::ServiceConf.from_json(resp.body)
+    end
+
+    # get_local_service_health returns an aggregated state of service(s) on the local agent by name
+    def get_service_health(name : String) : Array(Consul::Types::Agent::ServiceHealth)
+      resp = Consul::Util.get("#{base_url}/health/service/name/#{name}")
+      return Array(Consul::Types::Agent::ServiceHealth).from_json(resp.body)
     end
 
     # register_service adds a new service, with an optional health check, to the local agent
@@ -56,16 +63,24 @@ module Consul
         data = data.merge({"Check" => check})
       end
 
-      resp = Consul::Util.put("#{base_url}/service/register", data: data.to_json)
+      Consul::Util.put("#{base_url}/service/register", data: data.to_json)
     end
 
     # deregister_service removes a service from the local agent. If the service does not exist, no action is taken
-    def deregister_service()
+    def deregister_service(service_id : String)
+      # service/deregister/my-service-id
+      Consul::Util.put("#{base_url}/service/deregister/#{service_id}")
     end
 
     # set_serice_maintenence places a given service into "maintenance mode". 
     # During maintenance mode, the service will be marked as unavailable and will not be present in DNS or API queries
-    def set_service_maintenenance()
+    def set_service_maintenenance(service_id : String, enable : Bool, reason = "")
+      if reason != ""
+        reason = URI.escape(reason)
+        Consul::Util.put("#{base_url}/service/maintenance/#{service_id}?enable=#{enable}&reason=#{reason}")
+      else
+        Consul::Util.put("#{base_url}/service/maintenance/#{service_id}?enable=#{enable}")
+      end
     end
 
     # get_checks returns all checks that are registered with the local agent. 

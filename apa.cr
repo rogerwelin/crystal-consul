@@ -58,14 +58,20 @@ puts "-------------------"
 puts "-------------------"
 # check = {"HTTP" => "http://localhost", "Args" => ["/usr/local/bin/check_redis.py"], "Interval" => "10s"}
 check = {"HTTP" => "http://localhost", "Interval" => "10s"}
+check2 = {"HTTP" => "http://localhost:8500", "Interval" => "10s"}
 # check = {"HTTP" => "http://localhost", "Interval" => "10s", "TTL" => "15s"}
 c.agent.register_service(name: "kallekula", port: 7777, tags: ["master"], check: check)
+c.agent.register_service(name: "kallekula2", port: 7778, tags: ["stage"], check: check2)
+c.agent.deregister_service(service_id: "kallekula")
 puts "-------------------"
 
 puts "-------------------"
 s = c.agent.get_services
 puts s
-ss = c.agent.get_service_conf("kallekula")
+ss = c.agent.get_service_conf("kallekula2")
 puts ss.service
 puts ss.tags
+h = c.agent.get_service_health("kallekula2")
+puts h
+c.agent.set_service_maintenenance(service_id: "kallekula2", enable: false, reason: "for the lulz")
 puts "-------------------"
