@@ -45,5 +45,19 @@ module Consul
       )
     end
 
+    class ServiceConf
+      JSON.mapping(
+        kind:                 {type: String, key: "Kind", nilable: true},
+        id:                   {type: String, key: "ID"},
+        service:              {type: String, key: "Service"},
+        tags:                 {type: Array(String), key: "Tags", nilable: true},
+        meta:                 {type: Hash(String, String), key: "Meta", nilable: true},
+        address:              {type: String, key: "Address"},
+        port:                 {type: Int32, key: "Port"},
+        enable_tag_override:  {type: Bool, key: "EnableTagOverride"},
+        content_hash:         {type: String, key: "ContentHash"}
+      )
+    end
+
   end
 end

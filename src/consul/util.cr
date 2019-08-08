@@ -35,6 +35,8 @@ module Consul
       case resp.status_code
       when 400 then raise Consul::Error::BadRequest.new(resp)
       when 404 then raise Consul::Error::NotFound.new(resp)
+      when 413 then raise Consul::Error::PayloadTooLarge.new(resp)
+      when 500 then raise Consul::Error::InternalServerError.new(resp)
       end
     end
       

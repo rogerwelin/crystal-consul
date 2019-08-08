@@ -13,10 +13,10 @@ kv = c.kv.get_key("animal/apa")
 puts kv.value
 c.kv.delete_key("animal/apa")
 
-service = {"Service" => "redis", "ID" => "redis1", "Tags": ["master"]}
+service = {"Service" => "kafka", "ID" => "redis1", "Tags": ["master"]}
 c.catalog.register(
-  node: "node.apa",
-  address: "123.132.13",
+  node: "node.apa2",
+  address: "127.0.0.1",
   service: service)
 
 puts "-------------------"
@@ -53,4 +53,19 @@ puts "-------------------"
 peers = c.status.list_raft_peers
 puts peers
 puts typeof(peers)
+puts "-------------------"
+
+puts "-------------------"
+# check = {"HTTP" => "http://localhost", "Args" => ["/usr/local/bin/check_redis.py"], "Interval" => "10s"}
+check = {"HTTP" => "http://localhost", "Interval" => "10s"}
+# check = {"HTTP" => "http://localhost", "Interval" => "10s", "TTL" => "15s"}
+c.agent.register_service(name: "kallekula", port: 7777, tags: ["master"], check: check)
+puts "-------------------"
+
+puts "-------------------"
+s = c.agent.get_services
+puts s
+ss = c.agent.get_service_conf("kallekula")
+puts ss.service
+puts ss.tags
 puts "-------------------"

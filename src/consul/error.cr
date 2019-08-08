@@ -20,6 +20,8 @@ module Consul
 
     class BadRequest < ApiError; end
     class NotFound < ApiError; end
+    class PayloadTooLarge < ApiError; end
+    class InternalServerError < ApiError; end
 
   end
 end

@@ -1,20 +1,62 @@
+require "../util"
+
 module Consul
   class Agent
+    getter base_url
 
     def initialize(@port : Int32, @endpoint =  "")
-        @endpoint = "http://localhost:#{port}/v1/agent"
+        @base_url = "http://localhost:#{port}/v1/agent"
     end
 
     # get_services returns all the services that are registered with the local agent
-    def get_services()
+    def get_services() : JSON::Any
+      resp = Consul::Util.get("#{base_url}/services")
+
+      return JSON.parse(resp.body)
     end
 
     # get_service_conf returns the full service definition for a single service instance registered on the local agent
-    def get_service_conf()
+    def get_service_conf(name : String) : Consul::Types::ServiceConf
+      resp = Consul::Util.get("#{base_url}/service/#{name}")
+      return Consul::Types::ServiceConf.from_json(resp.body)
     end
 
     # register_service adds a new service, with an optional health check, to the local agent
-    def register_service()
+    # TO-DO: implement kind, proxy, connect
+    def register_service(
+      name                : String,
+      port                : Int32,
+      id                  : String? = nil,
+      tags                : Array(String)? = nil,
+      address             : String? = nil,
+      meta                : Hash(String, String)? = nil,
+      check               : Hash(String, String | Array(String))? = nil,
+      enable_tag_override : Bool = false,
+      )
+
+      data = {"Name" => name, "Port" => port, "EnableTagOverride" => enable_tag_override}
+
+      unless id.nil?
+        data["ID"] = id
+      end
+
+      unless address.nil?
+        data["Address"] = address
+      end
+
+      unless tags.nil?
+        data = data.merge({"Tags" => tags})
+      end
+
+      unless meta.nil?
+        data = data.merge({"Meta" => meta})
+      end
+
+      unless check.nil?
+        data = data.merge({"Check" => check})
+      end
+
+      resp = Consul::Util.put("#{base_url}/service/register", data: data.to_json)
     end
 
     # deregister_service removes a service from the local agent. If the service does not exist, no action is taken
