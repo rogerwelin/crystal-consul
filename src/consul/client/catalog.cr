@@ -100,9 +100,9 @@ module Consul
     # list_datacenters returns the list of all known datacenters. 
     # The datacenters will be sorted in ascending order based on the estimated median 
     # round trip time from the server to the servers in that datacenter
-    def list_datacenters() : JSON::Any
+    def list_datacenters() : Array(String)
         resp = HTTP::Client.get("#{base_url}/datacenters")
-        return JSON.parse(resp.body)
+        dc = Array(String).from_json(resp.body)
     end
 
     # list_nodes returns the nodes registered in a given datacenter

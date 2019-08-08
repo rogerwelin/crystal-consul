@@ -13,7 +13,7 @@ module Consul
     end
 
     # list_raft_peers retrieves the Raft peers for the datacenter in which the the agent is running
-    def list_raft_peers(datacenter : String? = nil) : JSON::Any
+    def list_raft_peers(datacenter : String? = nil) : Array(String)
       url = "#{base_url}/peers"
 
       unless datacenter.nil?
@@ -21,7 +21,8 @@ module Consul
       end
 
       resp = HTTP::Client.get("#{url}")
-      return JSON.parse(resp.body)
+      peers = Array(String).from_json(resp.body)
+      return peers
     end
 
   end

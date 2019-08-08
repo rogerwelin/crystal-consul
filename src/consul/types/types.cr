@@ -2,8 +2,8 @@ require "json"
 
 module Consul
   module Types
-    class KV
 
+    class KV
       JSON.mapping(
         key:    {type: String, key: "Key"},
         value:  {type: String, key: "Value"},
@@ -15,7 +15,6 @@ module Consul
         def initialize(@key : String, @value : String)
         end
       end
-
     end
 
     class Node
@@ -45,5 +44,6 @@ module Consul
         service_port:     {type: Int32, key: "ServicePort"},
       )
     end
+
   end
 end

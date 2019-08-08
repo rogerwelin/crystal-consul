@@ -18,6 +18,7 @@ c.catalog.register(
 puts "-------------------"
 dc = c.catalog.list_datacenters
 puts dc
+puts typeof(dc)
 puts "-------------------"
 
 puts "-------------------"
@@ -47,4 +48,5 @@ puts "-------------------"
 puts "-------------------"
 peers = c.status.list_raft_peers
 puts peers
+puts typeof(peers)
 puts "-------------------"
