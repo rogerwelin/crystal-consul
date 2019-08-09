@@ -5,7 +5,8 @@ require "./src/*"
 c = Consul.client(host: "localhost", port: 8500)
 puts c.host
 c.kv.create_key("animal/apa", "gorilla")
-kv = c.kv.get_key("animal/apa")
+# kv = c.kv.get_key("animal/apa")
+kv = c.kv.get_key("apa")
 
 # c.kv.get_key("should be bad request")
 # c.kv.get_key("not-found")

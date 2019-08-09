@@ -4,10 +4,10 @@ require "../util"
 module Consul
   class Catalog
 
-    getter host, port, base_url
+    getter client
 
-    def initialize(@host : String, @port : Int32)
-        @base_url = "http://#{host}:#{port}/v1/catalog"
+    def initialize(@client : HTTP::Client)
+        #@base_url = "http://#{host}:#{port}/v1/catalog"
     end
 
     # register is a low-level mechanism for registering or updating entries in the catalog. 
@@ -47,7 +47,7 @@ module Consul
         puts data.to_json
 
         begin
-          resp = Consul::Util.put("#{base_url}/register", data: data.to_json)
+          resp = Consul::Util.put(client, "/v1/catalog/register", data: data.to_json)
           #puts resp.status_code
           puts resp.body
         rescue ex
@@ -77,19 +77,19 @@ module Consul
           data = data.merge({"ServiceID" => service_id})
         end
 
-        resp = Consul::Util.put("#{base_url}/deregister", data: data.to_json)
+        resp = Consul::Util.put(client, "/v1/catalog/deregister", data: data.to_json)
         puts resp.status_code
     end
 
     # list_services returns the services registered in a given datacenter
     def list_services() : JSON::Any
-        resp = Consul::Util.get("#{base_url}/services")
+        resp = Consul::Util.get(client, "/v1/catalog/services")
         return JSON.parse(resp.body)
     end
 
     # list_nodes_for_service returns the nodes providing a service in a given datacenter
     def list_nodes_for_service(service : String) : Array(Consul::Types::Catalog::NodeService)
-        resp  = Consul::Util.get("#{base_url}/service/#{service}")
+        resp  = Consul::Util.get(client, "/v1/catalog/service/#{service}")
         nodes = Array(Consul::Types::Catalog::NodeService).from_json(resp.body)
         return nodes
     end
@@ -102,13 +102,13 @@ module Consul
     # The datacenters will be sorted in ascending order based on the estimated median 
     # round trip time from the server to the servers in that datacenter
     def list_datacenters() : Array(String)
-        resp = Consul::Util.get("#{base_url}/datacenters")
+        resp = Consul::Util.get(client, "/v1/catalog/datacenters")
         dc = Array(String).from_json(resp.body)
     end
 
     # list_nodes returns the nodes registered in a given datacenter
     def list_nodes() : Array(Consul::Types::Catalog::Node)
-      resp  = Consul::Util.get("#{base_url}/nodes")
+      resp  = Consul::Util.get(client, "/v1/catalog/nodes")
       nodes = Array(Consul::Types::Catalog::Node).from_json(resp.body)
       return nodes
     end

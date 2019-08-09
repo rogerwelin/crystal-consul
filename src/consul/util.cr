@@ -5,34 +5,34 @@ module Consul
   module Util
     extend self
 
-    def get(path : String) : HTTP::Client::Response
-      resp = HTTP::Client.get(path)
+    def get(client : HTTP::Client, path : String) : HTTP::Client::Response
+      resp = client.get(path)
       validate_response(resp)
       return resp
     end
 
-    def delete(path : String) : HTTP::Client::Response
-      resp = HTTP::Client.delete(path)
+    def delete(client : HTTP::Client, path : String) : HTTP::Client::Response
+      resp = client.delete(path)
       validate_response(resp)
       return resp
     end
 
-    def put(path : String, data : JSON::Any) : HTTP::Client::Response
-      resp = HTTP::Client.put(path, body: data)
-      validate_response(resp)
-      return resp
-    end
-
-    # overloading put method
-    def put(path : String, data : String) : HTTP::Client::Response
-      resp = HTTP::Client.put(path, body: data)
+    def put(client : HTTP::Client, path : String, data : JSON::Any) : HTTP::Client::Response
+      resp = client.put(path, body: data)
       validate_response(resp)
       return resp
     end
 
     # overloading put method
-    def put(path : String) : HTTP::Client::Response
-      resp = HTTP::Client.put(path)
+    def put(client : HTTP::Client, path : String, data : String) : HTTP::Client::Response
+      resp = client.put(path, body: data)
+      validate_response(resp)
+      return resp
+    end
+
+    # overloading put method
+    def put(client : HTTP::Client, path : String) : HTTP::Client::Response
+      resp = client.put(path)
       validate_response(resp)
       return resp
     end
