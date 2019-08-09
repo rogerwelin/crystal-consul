@@ -14,7 +14,7 @@ module Consul
       @host    : String = "127.0.0.1", 
       @port    : Int32 = 8500,
       @scheme  : String = "http",
-      @token   : String? = nil    # to be implemented
+      @token   : String =  ""   # to be implemented
       )
 
       client = http_client_instance("#{scheme}://#{host}:#{port}", token)
@@ -32,7 +32,7 @@ module Consul
       client = HTTP::Client.new(uri)
       client.connect_timeout = 5
 
-      if token
+      unless token == ""
         client.before_request do |request|
           request.headers["X-Consul-Token"] = token
         end

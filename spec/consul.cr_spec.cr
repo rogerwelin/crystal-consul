@@ -1,9 +1,8 @@
 require "./spec_helper"
 
-describe Consul.cr do
-  # TODO: Write tests
+describe Consul do
 
-  it "works" do
-    false.should eq(true)
+  it "should be a Consul::Client" do
+    #Consul.client("localhost").should be_a Consul::Client
   end
 end
