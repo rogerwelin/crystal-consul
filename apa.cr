@@ -3,6 +3,10 @@ require "base64"
 
 # https://crystal-lang.org/api/0.30.0/JSON/Serializable.html
 
+c1 = Consul.client(host: "localhost", port: 8500, token: "abc234")
+puts c1.token
+puts c1.port
+
 c = Consul.client(host: "localhost", port: 8500)
 
 puts "-------------------"

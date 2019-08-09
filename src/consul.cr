@@ -8,7 +8,7 @@ module Consul
     host    : String = "127.0.0.1", 
     port    : Int32 = 8500,
     scheme  : String = "http",
-    token    : String? = nil) : Consul::Client
-    Consul::Client.new(host, port, scheme)
+    token    : String = "") : Consul::Client
+    Consul::Client.new(host, port, scheme, token)
   end
 end
