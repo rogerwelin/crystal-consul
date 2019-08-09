@@ -4,10 +4,10 @@ require "../util"
 module Consul
   class Catalog
 
-    getter endpoint, port, base_url
+    getter host, port, base_url
 
-    def initialize(@endpoint : String, @port : Int32)
-        @base_url = "http://#{endpoint}:#{port}/v1/catalog"
+    def initialize(@host : String, @port : Int32)
+        @base_url = "http://#{host}:#{port}/v1/catalog"
     end
 
     # register is a low-level mechanism for registering or updating entries in the catalog. 
@@ -17,7 +17,7 @@ module Consul
         address     : String,
         id          : String? = nil,
         datacenter  : String? = nil,
-        service     : Hash(String, String)? = nil,
+        service     : Hash(String, String | Array(String))? = nil,
         check       : Hash(String, String)? = nil,
         node_meta   : Hash(String, String)? = nil
         )

@@ -21,6 +21,7 @@ module Consul
     class BadRequest < ApiError; end
     class Unauthorized < ApiError; end
     class Forbidden < ApiError; end
+    class RequestTimeout < ApiError; end
     class NotFound < ApiError; end
     class PayloadTooLarge < ApiError; end
     class InternalServerError < ApiError; end

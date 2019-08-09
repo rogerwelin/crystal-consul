@@ -2,10 +2,10 @@ require "../util"
 
 module Consul
   class Status
-    getter endpoint, port, base_url
+    getter host, port, base_url
 
-    def initialize(@endpoint : String, @port : Int32)
-        @base_url = "http://#{endpoint}:#{port}/v1/status"
+    def initialize(@host : String, @port : Int32)
+        @base_url = "http://#{host}:#{port}/v1/status"
     end
 
     # get_leader returns the Raft leader for the datacenter in which the agent is running

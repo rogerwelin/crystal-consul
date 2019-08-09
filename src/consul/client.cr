@@ -6,13 +6,18 @@ require "http/client"
 module Consul
   class Client
 
-    getter endpoint, port
+    getter host, port
     getter kv, catalog, status, agent
 
-    def initialize(@endpoint : String, @port : Int32)
-      @kv      = Consul::KV.new(endpoint, port)
-      @catalog = Consul::Catalog.new(endpoint, port)
-      @status  = Consul::Status.new(endpoint, port)
+    def initialize(
+      @host   : String = "127.0.0.1", 
+      @port   : Int32 = 8500,
+      scheme  : String = "http"
+      )
+
+      @kv      = Consul::KV.new(host, port)
+      @catalog = Consul::Catalog.new(host, port)
+      @status  = Consul::Status.new(host, port)
       @agent   = Consul::Agent.new(port)
     end
 

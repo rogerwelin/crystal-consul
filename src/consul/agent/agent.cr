@@ -5,7 +5,7 @@ module Consul
   class Agent
     getter base_url
 
-    def initialize(@port : Int32, @endpoint =  "")
+    def initialize(@port : Int32)
         @base_url = "http://localhost:#{port}/v1/agent"
     end
 

@@ -5,10 +5,10 @@ require "../util"
 module Consul
   class KV
 
-    getter endpoint, port, base_url
+    getter host, port, base_url
 
-    def initialize(@endpoint : String, @port : Int32)
-        @base_url = "http://#{endpoint}:#{port}/v1/kv"
+    def initialize(@host : String, @port : Int32)
+        @base_url = "http://#{host}:#{port}/v1/kv"
     end
 
     # get_key returns the specified key. If no key exists at the given path, a 404 is returned instead of a 200 response
