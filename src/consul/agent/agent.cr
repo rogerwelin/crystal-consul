@@ -7,7 +7,6 @@ module Consul
     getter client
 
     def initialize(@client : HTTP::Client)
-        #@base_url = "http://localhost:#{port}/v1/agent"
     end
 
     # get_services returns all the services that are registered with the local agent

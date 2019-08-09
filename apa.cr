@@ -106,3 +106,12 @@ e.each do |ee|
   puts Base64.decode_string(ee.payload)
 end
 puts "-------------------"
+
+puts "-------------------"
+puts "Health"
+h = c.health.get_checks_for_node("node.apa2")
+# h = c.health.get_checks_for_node("6b98916d578f")
+puts h
+sh = c.health.get_checks_for_service("kallekula2")
+puts sh
+puts "-------------------"

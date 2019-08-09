@@ -106,5 +106,21 @@ module Consul
       end
     end
 
+    module Health
+      class Check
+        JSON.mapping(
+          node:           {type: String, key: "Node"},
+          check_id:       {type: String, key: "CheckID"},
+          name:           {type: String, key: "Name"},
+          status:         {type: String, key: "Status"},
+          notes:          {type: String, key: "Notes"},
+          output:         {type: String, key: "Output"},
+          service_id:     {type: String, key: "ServiceID"},
+          service_name:   {type: String, key: "ServiceName"},
+          service_tags:   {type: Array(String), key: "ServiceTags"}
+        )
+      end
+    end
+
   end
 end

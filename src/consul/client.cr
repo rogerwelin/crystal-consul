@@ -8,7 +8,7 @@ module Consul
   class Client
 
     getter host, port, scheme, token
-    getter kv, catalog, status, agent, event
+    getter kv, catalog, status, agent, event, health
 
     def initialize(
       @host    : String = "127.0.0.1", 
@@ -24,6 +24,7 @@ module Consul
       @status  = Consul::Status.new(client)
       @agent   = Consul::Agent.new(client)
       @event   = Consul::Event.new(client)
+      @health  = Consul::Health.new(client)
     end
 
     private def http_client_instance(uri : String) : HTTP::Client

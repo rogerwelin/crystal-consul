@@ -37,6 +37,37 @@ module Consul
       return resp
     end
 
+    # build url query parameters
+    def validate_query_parameters(arg)
+      valid = [] of String
+      index = 0
+      build_url = ""
+    
+      arg.each do |key, val|
+        unless val.nil?
+          valid << "#{key}=#{val}"
+        end
+      end
+    
+      if valid.empty?
+        return false
+      end
+    
+      if valid.size == 1
+        return "?#{valid[0]}"
+      else
+        valid.each do |val|
+          if index == 0
+            build_url = "?#{val}"
+          else
+            build_url = "#{build_url}&#{val}"
+          end
+          index += 1
+        end
+      end
+      return build_url
+    end
+
     private def validate_response(resp : HTTP::Client::Response)
       case resp.status_code
       when 400 then raise Consul::Error::BadRequest.new(resp)
