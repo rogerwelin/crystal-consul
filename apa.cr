@@ -1,24 +1,39 @@
 require "./src/*"
+require "base64"
 
 # https://crystal-lang.org/api/0.30.0/JSON/Serializable.html
 
 c = Consul.client(host: "localhost", port: 8500)
-puts c.host
+
+puts "-------------------"
 c.kv.create_key("animal/apa", "gorilla")
-# kv = c.kv.get_key("animal/apa")
+kv = c.kv.get_key("animal/apa")
 kv = c.kv.get_key("apa")
 
-# c.kv.get_key("should be bad request")
-# c.kv.get_key("not-found")
+begin
+  c.kv.get_key("should be bad request")
+rescue ex : Consul::Error::BadRequest
+  puts "Should be bad request: #{ex}"
+end
+
+begin
+  c.kv.get_key("not-found")
+rescue ex : Consul::Error::NotFound
+  puts "Should be 404: #{ex}"
+end
 
 puts kv.value
 c.kv.delete_key("animal/apa")
+puts "-------------------"
 
+puts "-------------------"
 service = {"Service" => "kafka", "ID" => "redis1", "Tags": ["master"]}
 c.catalog.register(
   node: "node.apa2",
   address: "127.0.0.1",
   service: service)
+
+puts "-------------------"
 
 puts "-------------------"
 dc = c.catalog.list_datacenters
@@ -76,4 +91,18 @@ puts ss.tags
 h = c.agent.get_service_health("kallekula2")
 puts h
 c.agent.set_service_maintenenance(service_id: "kallekula2", enable: false, reason: "for the lulz")
+puts "-------------------"
+
+puts "-------------------"
+puts "Events"
+event = c.event.create_event(name: "custom-event", service: "kallekula2")
+c.event.create_event(name: "test", service: "kallekula")
+puts event.id
+puts event.name
+e = c.event.get_events
+puts e
+
+e.each do |ee|
+  puts Base64.decode_string(ee.payload)
+end
 puts "-------------------"
