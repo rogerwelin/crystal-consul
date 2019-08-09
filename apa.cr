@@ -10,7 +10,7 @@ puts c1.port
 c = Consul.client(host: "localhost", port: 8500)
 
 puts "-------------------"
-c.kv.create_key("animal/apa", "gorilla")
+puts c.kv.create_key("animal/apa", "gorilla")
 kv = c.kv.get_key("animal/apa")
 kv = c.kv.get_key("apa")
 
