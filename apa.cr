@@ -10,6 +10,19 @@ puts c1.port
 c = Consul.client(host: "localhost", port: 8500)
 
 puts "-------------------"
+puts "::service::"
+service1 = Consul::Service.new
+service1.name = "service-example"
+service1.tags = ["master"]
+service1.address = "10.12.12.12"
+service1.port = "8509"
+puts service1.name
+puts service1.tags
+puts service1.port
+
+puts "-------------------"
+
+puts "-------------------"
 puts c.kv.create_key("animal/apa", "gorilla")
 kv = c.kv.get_key("animal/apa")
 kv = c.kv.get_key("apa")
