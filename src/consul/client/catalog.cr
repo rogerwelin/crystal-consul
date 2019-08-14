@@ -1,5 +1,6 @@
 require "../types/*"
 require "../util"
+require "../service"
 
 module Consul
   class Catalog
@@ -17,7 +18,8 @@ module Consul
         address     : String,
         id          : String? = nil,
         datacenter  : String? = nil,
-        service     : Hash(String, String | Array(String))? = nil,
+        #service     : Hash(String, String | Array(String))? = nil,
+        service      : Consul::Service? = nil,
         check       : Hash(String, String)? = nil,
         node_meta   : Hash(String, String)? = nil
         )

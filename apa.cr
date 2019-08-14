@@ -12,10 +12,10 @@ c = Consul.client(host: "localhost", port: 8500)
 puts "-------------------"
 puts "::service::"
 service1 = Consul::Service.new
-service1.name = "service-example"
+service1.name = "service-examplezzz"
 service1.tags = ["master"]
 service1.address = "10.12.12.12"
-service1.port = "8509"
+service1.port = 8509
 puts service1.name
 puts service1.tags
 puts service1.port
@@ -25,7 +25,7 @@ puts "-------------------"
 puts "-------------------"
 puts c.kv.create_key("animal/apa", "gorilla")
 kv = c.kv.get_key("animal/apa")
-kv = c.kv.get_key("apa")
+# kv = c.kv.get_key("apa")
 
 begin
   c.kv.get_key("should be bad request")
@@ -44,12 +44,14 @@ c.kv.delete_key("animal/apa")
 puts "-------------------"
 
 puts "-------------------"
-service = {"Service" => "kafka", "ID" => "redis1", "Tags": ["master"]}
 c.catalog.register(
   node: "node.apa2",
   address: "127.0.0.1",
-  service: service)
+  service: service1)
 
+c.catalog.register(
+  node: "node.apa3",
+  address: "127.0.0.1")
 puts "-------------------"
 
 puts "-------------------"
