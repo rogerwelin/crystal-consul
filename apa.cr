@@ -111,12 +111,24 @@ puts "-------------------"
 puts "-------------------"
 s = c.agent.get_services
 puts s
-ss = c.agent.get_service_conf("kallekula2")
+ss = c.agent.get_service_conf(name: "kallekula5")
 puts ss.service
 puts ss.tags
-h = c.agent.get_service_health("kallekula2")
+h = c.agent.get_service_health("kallekula5")
 puts h
 c.agent.set_service_maintenenance(service_id: "kallekula2", enable: false, reason: "for the lulz")
+puts "-------------------"
+
+puts "-------------------"
+puts "Agent checks"
+check0 = Consul::Check.new(name: "check google", interval: "30s", http: "https://www.google.com", timeout: "10s")
+puts "-------------------"
+c.agent.register_check(check0)
+g = c.agent.get_checks
+
+puts "check type: "
+puts typeof(g)
+
 puts "-------------------"
 
 puts "-------------------"
@@ -136,7 +148,7 @@ puts "-------------------"
 puts "-------------------"
 puts "Health"
 h = c.health.get_checks_for_node("node.apa2")
-# h = c.health.get_checks_for_node("6b98916d578f")
+h = c.health.get_checks_for_node("6b98916d578f")
 puts h
 sh = c.health.get_checks_for_service("kallekula2")
 puts sh

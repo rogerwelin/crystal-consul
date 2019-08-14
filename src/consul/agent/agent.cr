@@ -53,7 +53,9 @@ module Consul
     end
 
     # get_checks returns all checks that are registered with the local agent. 
-    def get_checks()
+    def get_checks() : JSON::Any
+      resp = Consul::Util.get(client, "/v1/agent/checks")
+      return JSON.parse(resp.body)
     end
 
     # register_check adds a new check to the local agent. Checks may be of script, HTTP, TCP, or TTL type. 
@@ -64,7 +66,8 @@ module Consul
 
     # deregister_check remove a check from the local agent. The agent will take care of deregistering the check from 
     # the catalog. If the check with the provided ID does not exist, no action is taken
-    def deregister_check()
+    def deregister_check(check_id : String)
+      Consul::Util.put(client, "/v1/agent/check/deregister/#{check_id}")
     end
 
     # ttl_check_pass is used with a TTL type check to set the status of the check to passing and to reset the TTL clock

@@ -11,7 +11,7 @@ module Consul
     JSON.mapping(
         name:                               {type: String, key: "Name"},
         id:                                 {type: String, key: "ID", nilable: true},
-        interal:                            {type: String, key: "Interval", nilable: true},
+        interval:                           {type: String, key: "Interval", nilable: true},
         notes:                              {type: String, key: "Notes", nilable: true},
         deregister_critial_service_after:   {type: String, key: "DeregisterCriticalServiceAfter", nilable: true},
         args:                               {type: Array(String), key: "Args", nilable: true},
