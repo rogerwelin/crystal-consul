@@ -12,11 +12,11 @@ c = Consul.client(host: "localhost", port: 8500)
 puts "-------------------"
 puts "::service::"
 service1 = Consul::Service.new
-service1.name = "service-examplezzz"
+service1.service = "service-examplezzz"
 service1.tags = ["master"]
 service1.address = "10.12.12.12"
 service1.port = 8509
-puts service1.name
+puts service1.service
 puts service1.tags
 puts service1.port
 
@@ -94,11 +94,18 @@ puts "-------------------"
 # check = {"HTTP" => "http://localhost", "Args" => ["/usr/local/bin/check_redis.py"], "Interval" => "10s"}
 check = {"HTTP" => "http://localhost", "Interval" => "10s"}
 check2 = {"HTTP" => "http://localhost:8500", "Interval" => "10s"}
+service2 = Consul::Service.new
+service2.name = "kallekula5"
+service2.port = 7779
+service2.tags = ["stage"]
+service2.check = check2
 # check = {"HTTP" => "http://localhost", "Interval" => "10s", "TTL" => "15s"}
-c.agent.register_service(name: "kallekula", port: 7777, tags: ["master"], check: check)
-c.agent.register_service(name: "kallekula2", port: 7778, tags: ["stage"], check: check2)
-c.agent.deregister_service(service_id: "kallekula")
-c.agent.register_service(name: "kallekula", port: 7777, tags: ["master"], check: check)
+c.agent.register_service(service2)
+
+# c.agent.register_service(name: "kallekula", port: 7777, tags: ["master"], check: check)
+# c.agent.register_service(name: "kallekula2", port: 7778, tags: ["stage"], check: check2)
+# c.agent.deregister_service(service_id: "kallekula")
+# c.agent.register_service(name: "kallekula", port: 7777, tags: ["master"], check: check)
 puts "-------------------"
 
 puts "-------------------"

@@ -3,11 +3,12 @@ require "json"
 module Consul
   class Service
 
-    property id, name, address, tags, port, tag_override, meta, check
+    property id, service, name, address, tags, port, tag_override, meta, check
 
     JSON.mapping(
       id:           {type: String, key: "ID", nilable: true},
-      name:         {type: String, key: "Service"},
+      service:      {type: String, key: "Service", nilable: true},
+      name:         {type: String, key: "Name", nilable: true},
       address:      {type: String, key: "Address", nilable: true},
       tags:         {type: Array(String), key: "Tags", nilable: true},
       port:         {type: Int32, key: "Port"},
@@ -19,6 +20,7 @@ module Consul
     def initialize(
       @id           : String? = nil,
       @name         : String = "",
+      @service      : String = "",
       @address      : String? = nil,
       @tags         = [] of String,
       @port         : Int32 = 0,

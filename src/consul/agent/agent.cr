@@ -1,5 +1,6 @@
 require "uri"
 require "../util"
+require "../service"
 
 module Consul
   class Agent
@@ -29,40 +30,8 @@ module Consul
 
     # register_service adds a new service, with an optional health check, to the local agent
     # TO-DO: implement kind, proxy, connect
-    def register_service(
-      name                : String,
-      port                : Int32,
-      id                  : String? = nil,
-      tags                : Array(String)? = nil,
-      address             : String? = nil,
-      meta                : Hash(String, String)? = nil,
-      check               : Hash(String, String | Array(String))? = nil,
-      enable_tag_override : Bool = false,
-      )
-
-      data = {"Name" => name, "Port" => port, "EnableTagOverride" => enable_tag_override}
-
-      unless id.nil?
-        data["ID"] = id
-      end
-
-      unless address.nil?
-        data["Address"] = address
-      end
-
-      unless tags.nil?
-        data = data.merge({"Tags" => tags})
-      end
-
-      unless meta.nil?
-        data = data.merge({"Meta" => meta})
-      end
-
-      unless check.nil?
-        data = data.merge({"Check" => check})
-      end
-
-      Consul::Util.put(client, "/v1/agent/service/register", data: data.to_json)
+    def register_service(service : Consul::Service)
+      Consul::Util.put(client, "/v1/agent/service/register", data: service.to_json)
     end
 
     # deregister_service removes a service from the local agent. If the service does not exist, no action is taken
