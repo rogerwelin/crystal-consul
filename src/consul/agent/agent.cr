@@ -1,6 +1,7 @@
 require "uri"
 require "../util"
 require "../service"
+require "../check"
 
 module Consul
   class Agent
@@ -57,92 +58,8 @@ module Consul
 
     # register_check adds a new check to the local agent. Checks may be of script, HTTP, TCP, or TTL type. 
     # The agent is responsible for managing the status of the check and keeping the Catalog in sync
-    def register_check(
-      name                              : String,
-      id                                : String? = nil,
-      interval                          : String? = nil,
-      notes                             : String? = nil,
-      deregister_critial_service_after  : String? = nil,
-      args                              : Array(String)? = nil,
-      alias_node                        : String? = nil,
-      alias_service                     : String? = nil,
-      docker_container_id               : String? = nil,
-      grpc                              : String? = nil,
-      grpc_use_tls                      : Bool = false,
-      http                              : String? = nil,
-      method                            : String? = nil,
-      header                            : Hash(String, Array(String))? = nil,
-      timeout                           : String = "10s",
-      tls_skip_verify                   : Bool = false,
-      tcp                               : String? = nil,
-      ttl                               : String? = nil,
-      service_id                        : String? = nil,
-      status                            : String? = nil,
-      )
-
-      data = {"Name" => name, "Timeout" => timeout, "TLSSkipVerify" => tls_skip_verify, "GRPCUseTLS" => grpc_use_tls}
-
-      unless id.nil?
-        data["ID"] = id
-      end
-
-      unless interval.nil?
-        data["Interval"] = interval
-      end
-
-      unless notes.nil?
-        data["Notes"] = notes
-      end
-
-      unless args.nil?
-        data = data.merge({"Args" => args})
-      end
-
-      unless alias_node.nil?
-        data["AliasNode"] = alias_node
-      end
-
-      unless alias_service.nil?
-        data["AliasService"] = alias_service
-      end
-
-      unless docker_container_id.nil?
-        data["DockerContainerID"] = docker_container_id
-      end
-
-      unless grpc.nil?
-        data["GRPC"] = grpc
-      end
-
-      unless http.nil?
-        data["HTTP"] = http
-      end
-
-      unless method.nil?
-        data["Method"] = method
-      end
-
-      unless header.nil?
-        data = data.merge({"Header" => header})
-      end
-
-      unless tcp.nil?
-        data["TCP"] = tcp
-      end
-
-      unless ttl.nil?
-        data["TTL"] = ttl
-      end
-
-      unless service_id.nil?
-        data["ServiceID"] = service_id
-      end
-
-      unless status.nil?
-        data["Status"] = service_id
-      end
-
-
+    def register_check(check : Consul::Check)
+      Consul::Util.put(client, "/v1/agent/check/register", data: check.to_json)
     end
 
     # deregister_check remove a check from the local agent. The agent will take care of deregistering the check from 
