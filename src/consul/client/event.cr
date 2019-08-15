@@ -1,12 +1,8 @@
 require "../types/*"
+require "../httpagent"
 
 module Consul
-  class Event
-
-    getter client
-
-    def initialize(@client : HTTP::Client)
-    end
+  class Event < Consul::HttpAgent
 
     # create_event triggers a new user event
     def create_event(
@@ -35,7 +31,7 @@ module Consul
           data["tag"] = tag
       end
 
-      resp = Consul::Util.put(client, "/v1/event/fire/#{name}", data: data.to_json)
+      resp = put("/v1/event/fire/#{name}", data: data.to_json)
       return Consul::Types::Event::Event.from_json(resp.body)
     end
 
@@ -47,25 +43,25 @@ module Consul
       tag         : String? = nil
       ) : Array(Consul::Types::Event::Event)
 
-      url = "/v1/event/list"
+      endpoint = "/v1/event/list"
 
       unless name.nil?
-        url = "#{url}?name=#{name}"
+        endpoint = "#{endpoint}?name=#{name}"
 
         unless node.nil?
-          url = "#{url}&node=#{node}"
+          endpoint = "#{endpoint}&node=#{node}"
         end
 
         unless service.nil?
-          url = "#{url}&service=#{service}"
+          endpoint = "#{endpoint}&service=#{service}"
         end
 
         unless tag.nil?
-          url = "#{url}&tag=#{tag}"
+          endpoint = "#{endpoint}&tag=#{tag}"
         end
       end
 
-      resp = Consul::Util.get(client, "#{url}")
+      resp = get(endpoint)
       return Array(Consul::Types::Event::Event).from_json(resp.body)
     end
   

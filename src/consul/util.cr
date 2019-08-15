@@ -68,7 +68,7 @@ module Consul
       return build_url
     end
 
-    private def validate_response(resp : HTTP::Client::Response)
+    def validate_response(resp : HTTP::Client::Response)
       case resp.status_code
       when 400 then raise Consul::Error::BadRequest.new(resp)
       when 401 then raise Consul::Error::Unauthorized.new(resp)

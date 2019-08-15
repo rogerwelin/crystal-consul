@@ -1,23 +1,19 @@
-require "../util"
+require "../httpagent"
 require "../types/*"
+require "../util"
 
 module Consul
-  class Health
-
-    getter client
-
-    def initialize(@client : HTTP::Client)
-    end
+  class Health < Consul::HttpAgent
 
     # get_checks_for_node returns the checks specific to the node provided on the path
     def get_checks_for_node(node : String, datacenter : String? = nil) : Array(Consul::Types::Health::Check)
       endpoint = "/v1/health/node/#{node}"
 
       unless datacenter.nil?
-        url = "#{endpoint}?dc=#{datacenter}"
+        endpoint = "#{endpoint}?dc=#{datacenter}"
       end
 
-      resp = Consul::Util.get(client, endpoint)
+      resp = get(endpoint)
       return Array(Consul::Types::Health::Check).from_json(resp.body)
     end
 
@@ -38,7 +34,7 @@ module Consul
         endpoint = "#{endpoint}#{val}"
       end
 
-      resp = Consul::Util.get(client, endpoint)
+      resp = get(endpoint)
       return Array(Consul::Types::Health::Check).from_json(resp.body)
     end
 
@@ -89,7 +85,11 @@ module Consul
         "near" => near, 
         "node-meta" => node_meta})
 
-      resp = Consul::Util.get(client, endpoint)
+      if val
+        endpoint = "#{endpoint}#{val}"
+      end
+
+      resp = get(endpoint)
       return Array(Consul::Types::Health::Check).from_json(resp.body)
     end
 
