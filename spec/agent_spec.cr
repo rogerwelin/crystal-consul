@@ -69,11 +69,10 @@ describe Consul do
       c.agent.get_checks().should be_a Hash(String, Consul::Types::Agent::Check)
     end
 
-    it "should return checks with expected values" do
+    it "should return check with expected values" do
       c = Consul.client()
       check = c.agent.get_checks()
       check["test-check"].name.should eq "test-check"
-
     end
 
     it "should deregister a check" do
