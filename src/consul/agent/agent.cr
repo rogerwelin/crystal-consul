@@ -1,7 +1,6 @@
 require "uri"
 require "../httpagent"
-require "../service"
-require "../check"
+require "../models/*"
 require "../types/*"
 
 module Consul

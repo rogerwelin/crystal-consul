@@ -1,6 +1,6 @@
 require "../types/*"
 require "../httpagent"
-require "../service"
+require "../models/service"
 
 module Consul
   class Catalog < Consul::HttpAgent
