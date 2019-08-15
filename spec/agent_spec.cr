@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 describe Consul do
-  context "agent" do
+  context ".Agent" do
 
     it "should create service" do
       c = Consul.client()

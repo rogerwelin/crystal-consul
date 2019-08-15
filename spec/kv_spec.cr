@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 describe Consul do
-  context "kv" do
+  context ".KV" do
 
     it "should create & return expected kv type" do
       c = Consul.client()

@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 describe Consul do
-  context "status" do
+  context ".Status" do
   
     it "should return a string for leader endpoint" do
       c = Consul.client()

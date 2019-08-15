@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 describe Consul do
-  context ".client" do
+  context ".Client" do
     it "should be a Consul::Client" do
       Consul.client().should be_a Consul::Client
     end

@@ -1,9 +1,9 @@
 require "./spec_helper"
 
 describe Consul do
-    context "health" do
+  context ".Health" do
   
   
-    end
   end
+end
   

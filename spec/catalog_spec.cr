@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 describe Consul do
-  context "catalog" do
+  context ".Catalog" do
 
     it "should list datacenters with expected type" do
       c = Consul.client()

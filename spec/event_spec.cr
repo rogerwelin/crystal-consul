@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 describe Consul do
-  context "event" do
+  context ".Event" do
    
     it "should create event & return expected type" do
       c = Consul.client()
