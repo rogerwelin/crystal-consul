@@ -7,15 +7,22 @@ require "uri"
 module Consul
   class Client
 
-    getter host, port, scheme, token
+    getter host, port, scheme, token, consistency
     getter kv, catalog, status, agent, event, health
 
     def initialize(
-      @host    : String = "127.0.0.1", 
-      @port    : Int32 = 8500,
-      @scheme  : String = "http",
-      @token   : String =  ""   # to be implemented
+      @host        : String = "127.0.0.1", 
+      @port        : Int32 = 8500,
+      @scheme      : String = "http",
+      @token       : String = "",
+      @consistency : String = "default" # to be implemented
       )
+
+      if consistency === "default" || consistency === "consistent" || consistency === "stale"
+      else
+        raise "Error: #{consistency} is not a valid consistency option"
+      end
+
 
       client = http_client_instance("#{scheme}://#{host}:#{port}", token)
 
