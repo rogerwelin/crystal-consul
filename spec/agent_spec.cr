@@ -34,6 +34,11 @@ describe Consul do
       service_conf.meta["version"].should eq "1.0"
     end
   
+    it "should return services with expected type" do
+      c = Consul.client()
+      c.agent.get_services().should be_a Hash(String, Consul::Types::Agent::Service)
+    end
+
     it "should return service healh with expected type" do
       c = Consul.client()
       service_health = c.agent.get_service_health(name: "test-service")
@@ -46,6 +51,23 @@ describe Consul do
       service_health[0].aggregated_status.should eq "critical"
       service_health[0].service.service.should eq "test-service"
     end
+
+    it "should create check" do
+      c = Consul.client()
+      check = Consul::Check.new(
+        name: "test-check", 
+        interval: "30s",
+        http: "https://www.google.com",
+        timeout: "5s"
+        )
+      c.agent.register_check(check)
+    end
+
+    it "should return checks with expected type" do
+      c = Consul.client()
+      c.agent.get_checks().should be_a Hash(String, Consul::Types::Agent::Check)
+    end
+
 
   end
 end

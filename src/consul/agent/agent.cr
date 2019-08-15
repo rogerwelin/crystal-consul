@@ -7,9 +7,9 @@ module Consul
   class Agent < Consul::HttpAgent
 
     # get_services returns all the services that are registered with the local agent
-    def get_services() : JSON::Any
+    def get_services() : Hash(String, Consul::Types::Agent::Service)
       resp = get("/v1/agent/services")
-      return JSON.parse(resp.body)
+      return Hash(String, Consul::Types::Agent::Service).from_json(resp.body)
     end
 
     # get_service_conf returns the full service definition for a single service instance registered on the local agent
@@ -47,9 +47,9 @@ module Consul
     end
 
     # get_checks returns all checks that are registered with the local agent. 
-    def get_checks() : JSON::Any
+    def get_checks() : Hash(String, Consul::Types::Agent::Check)
       resp = get("/v1/agent/checks")
-      return JSON.parse(resp.body)
+      return Hash(String, Consul::Types::Agent::Check).from_json(resp.body)
     end
 
     # register_check adds a new check to the local agent. Checks may be of script, HTTP, TCP, or TTL type. 

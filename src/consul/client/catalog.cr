@@ -70,9 +70,9 @@ module Consul
     end
 
     # list_services returns the services registered in a given datacenter
-    def list_services() : JSON::Any
+    def list_services() : Hash(String, Array(String))
       resp = get("/v1/catalog/services")
-      return JSON.parse(resp.body)
+      return Hash(String, Array(String)).from_json(resp.body)
     end
 
     # list_nodes_for_service returns the nodes providing a service in a given datacenter
