@@ -58,7 +58,8 @@ describe Consul do
         name: "test-check", 
         interval: "30s",
         http: "https://www.google.com",
-        timeout: "5s"
+        timeout: "5s",
+        notes: "for tests"
         )
       c.agent.register_check(check)
     end
@@ -68,6 +69,26 @@ describe Consul do
       c.agent.get_checks().should be_a Hash(String, Consul::Types::Agent::Check)
     end
 
+    it "should return checks with expected values" do
+      c = Consul.client()
+      check = c.agent.get_checks()
+      check["test-check"].name.should eq "test-check"
+
+    end
+
+    it "should deregister a check" do
+      c = Consul.client()
+      checks = c.agent.get_checks()
+      check_id = checks["test-check"].check_id
+
+      c.agent.deregister_check(check_id)
+      begin
+        ch = c.agent.get_checks()
+        ch["test-check"]
+      rescue ex : Exception
+        ex.should be_a KeyError
+      end
+    end
 
   end
 end

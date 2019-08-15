@@ -23,7 +23,6 @@ module Consul
         raise "Error: #{consistency} is not a valid consistency option"
       end
 
-
       client = http_client_instance("#{scheme}://#{host}:#{port}", token)
 
       @kv      = Consul::KV.new(client)

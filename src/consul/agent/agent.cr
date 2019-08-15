@@ -24,6 +24,8 @@ module Consul
       return Array(Consul::Types::Agent::ServiceHealth).from_json(resp.body)
     end
 
+    #TO-DO: get service by id
+
     # register_service adds a new service, with an optional health check, to the local agent
     # TO-DO: implement kind, proxy, connect
     def register_service(service : Consul::Service)
