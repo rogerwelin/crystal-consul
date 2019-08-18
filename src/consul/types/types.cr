@@ -126,7 +126,7 @@ module Consul
       class Wan
         JSON.mapping(
           datacenter:   {type: String, key: "Datacenter"},
-          area_id:      {type: String, key: "WAN"}
+          area_id:      {type: String, key: "WAN"},
           coordinates:  {type: Coordinates, key: "Coordinates"}
         )
       end
