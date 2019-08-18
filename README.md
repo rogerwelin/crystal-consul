@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/rogerwelin/crystal-consul.svg?branch=master)](https://travis-ci.org/rogerwelin/crystal-consul)
+
 # crystal-consul
 
 TODO: Write a description here
