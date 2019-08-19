@@ -36,7 +36,7 @@ c.kv.get_key("stage/service-example/version")
 
 # you can also get keys recursively
 c.kv.get_key("stage", recurse: true)
-[Consul::Types::KV::KvPair(@key="stage/service-example/tag", @value="master"), Consul::Types::KV::KvPair(@key="stage/service-example/version", @value="1")]
+# [Consul::Types::KV::KvPair(@key="stage/service-example/tag", @value="master"), Consul::Types::KV::KvPair(@key="stage/service-example/version", @value="1")]
 
 
 # register a service on the local agent
