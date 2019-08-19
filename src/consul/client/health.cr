@@ -75,9 +75,9 @@ module Consul
     ) : Array(Consul::Types::Health::Check)
       endpoint = "/v1/health/state/#{state}"
 
-      val = Consul::Util.validate_query_parameters({"dc"        => datacenter,
-                                                    "near"      => near,
-                                                    "node-meta" => node_meta})
+      val = Consul::Util.build_query_params({"dc"        => datacenter,
+                                             "near"      => near,
+                                             "node-meta" => node_meta})
 
       if val
         endpoint = "#{endpoint}#{val}"

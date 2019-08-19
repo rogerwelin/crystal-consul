@@ -5,8 +5,8 @@ module Consul
   module Util
     extend self
 
-    # build url query parameters
-    def validate_query_parameters(arg)
+    # build url query parameters from hash
+    def build_query_params(arg)
       valid = [] of String
       index = 0
       build_url = ""
