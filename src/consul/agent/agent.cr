@@ -11,6 +11,12 @@ module Consul
       return Hash(String, Consul::Types::Agent::Service).from_json(resp.body)
     end
 
+    def get_services(filter : String) : Hash(String, Consul::Types::Agent::Service)
+      filter = URI.escape(filter)
+      resp = get("/v1/agent/services?filter=#{filter}")
+      return Hash(String, Consul::Types::Agent::Service).from_json(resp.body)
+    end
+
     # get_service_conf returns the full service definition for a single service instance registered on the local agent
     def get_service_conf(name : String) : Consul::Types::Agent::ServiceConf
       resp = get("/v1/agent/service/#{name}")
@@ -50,6 +56,12 @@ module Consul
     # get_checks returns all checks that are registered with the local agent.
     def get_checks : Hash(String, Consul::Types::Agent::Check)
       resp = get("/v1/agent/checks")
+      return Hash(String, Consul::Types::Agent::Check).from_json(resp.body)
+    end
+
+    def get_checks(filter : String) : Hash(String, Consul::Types::Agent::Check)
+      filter = URI.escape(filter)
+      resp = get("/v1/agent/checks?filter=#{filter}")
       return Hash(String, Consul::Types::Agent::Check).from_json(resp.body)
     end
 

@@ -5,11 +5,22 @@ require "../util"
 module Consul
   class Health < Consul::Transport
     # get_checks_for_node returns the checks specific to the node provided on the path
-    def get_checks_for_node(node : String, datacenter : String? = nil) : Array(Consul::Types::Health::Check)
+    def get_checks_for_node(
+      node : String,
+      datacenter : String? = nil,
+      filter : String? = nil
+    ) : Array(Consul::Types::Health::Check)
       endpoint = "/v1/health/node/#{node}"
+      consistency = get_consistency()
 
-      unless datacenter.nil?
-        endpoint = "#{endpoint}?dc=#{datacenter}"
+      val = Consul::Util.build_query_params({
+        "#{consistency}" => "",
+        "dc"             => datacenter,
+        "filter"         => filter,
+      })
+
+      if val
+        endpoint = "#{endpoint}#{val}"
       end
 
       resp = get(endpoint)
@@ -22,11 +33,19 @@ module Consul
       service : String,
       datacenter : String? = nil,
       near : String? = nil,
-      node_meta : String? = nil
+      node_meta : String? = nil,
+      filter : String? = nil
     ) : Array(Consul::Types::Health::Check)
       endpoint = "/v1/health/checks/#{service}"
+      consistency = get_consistency()
 
-      val = Consul::Util.validate_query_parameters({"dc" => datacenter, "near" => near, "node-meta" => node_meta})
+      val = Consul::Util.build_query_params({
+        "#{consistency}" => "",
+        "dc"             => datacenter,
+        "near"           => near,
+        "node-meta"      => node_meta,
+        "filter"         => filter,
+      })
 
       if val
         endpoint = "#{endpoint}#{val}"
@@ -44,15 +63,21 @@ module Consul
       near : String? = nil,
       tag : String? = nil,
       node_meta : String? = nil,
-      passing : String? = nil
+      passing : String? = nil,
+      filter : String? = nil
     )
       endpoint = "/v1/health/service/#{service}"
+      consistency = get_consistency()
 
-      val = Consul::Util.validate_query_parameters({"dc"        => datacenter,
-                                                    "near"      => near,
-                                                    "tag"       => tag,
-                                                    "passing"   => passing,
-                                                    "node-meta" => node_meta})
+      val = Consul::Util.build_query_params({
+        "#{consistency}" => "",
+        "dc"             => datacenter,
+        "near"           => near,
+        "tag"            => tag,
+        "passing"        => passing,
+        "node-meta"      => node_meta,
+        "filter"         => filter,
+      })
 
       if val
         endpoint = "#{endpoint}#{val}"
@@ -71,13 +96,19 @@ module Consul
       state : String,
       datacenter : String? = nil,
       near : String? = nil,
-      node_meta : String? = nil
+      node_meta : String? = nil,
+      filter : String? = nil
     ) : Array(Consul::Types::Health::Check)
       endpoint = "/v1/health/state/#{state}"
+      consistency = get_consistency()
 
-      val = Consul::Util.build_query_params({"dc"        => datacenter,
-                                             "near"      => near,
-                                             "node-meta" => node_meta})
+      val = Consul::Util.build_query_params({
+        "#{consistency}" => "",
+        "dc"             => datacenter,
+        "near"           => near,
+        "node-meta"      => node_meta,
+        "filter"         => filter,
+      })
 
       if val
         endpoint = "#{endpoint}#{val}"

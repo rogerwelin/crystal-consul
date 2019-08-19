@@ -13,7 +13,17 @@ describe Consul do
         meta: {"version" => "1.0"},
         check: {"HTTP" => "http://localhost:9900", "Interval" => "10s"}
       )
+      service2 = Consul::Service.new(
+        name: "service-proxy",
+        port: 9999,
+        tags: ["stage"],
+        address: "10.42.168.11",
+        tag_override: true,
+        meta: {"version" => "1.0"},
+        check: {"HTTP" => "http://localhost:9999", "Interval" => "10s"}
+      )
       c.agent.register_service(service)
+      c.agent.register_service(service2)
     end
 
     it "should return service conf with expected type" do
@@ -36,6 +46,12 @@ describe Consul do
     it "should return services with expected type" do
       c = Consul.client
       c.agent.get_services.should be_a Hash(String, Consul::Types::Agent::Service)
+    end
+
+    it "should return services with with working filter" do
+      c = Consul.client
+      service = c.agent.get_services(filter: "Service == \"service-proxy\"")
+      service.size.should eq 1
     end
 
     it "should return service healh with expected type" do

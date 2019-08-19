@@ -1,26 +1,37 @@
 require "base64"
 require "../types/*"
 require "../transport"
+require "../util"
 
 module Consul
   class KV < Consul::Transport
     # get_key returns the specified key. If no key exists at the given path, a 404 is returned instead of a 200 response
     def get_key(path : String) : Consul::Types::KV::KvPair
-      resp = get("/v1/kv/#{path}")
+      consistency = get_consistency()
+      resp = get("/v1/kv/#{path}?#{consistency}")
       kv = Array(Consul::Types::KV::KV).from_json(resp.body)
       keyval = Consul::Types::KV::KvPair.new(kv.first.key, Base64.decode_string(kv.first.value))
       return keyval
     end
 
-    # overload get_key
+    # overload get_key, recurse option
     def get_key(path : String, recurse : Bool) : Array(Consul::Types::KV::KvPair)
-      resp = get("/v1/kv/#{path}?recurse=true")
+      consistency = get_consistency()
+      resp = get("/v1/kv/#{path}?#{consistency}&recurse=true")
       kv = Array(Consul::Types::KV::KV).from_json(resp.body)
       keyvals = [] of Consul::Types::KV::KvPair
       kv.each do |kvpair|
         keyvals << Consul::Types::KV::KvPair.new(kvpair.key, Base64.decode_string(kvpair.value))
       end
       return keyvals
+    end
+
+    # overload get key - get all keys without value
+    def get_key(path : String, recurse : Bool, keys : Bool) : Array(String)
+      consistency = get_consistency()
+      resp = get("/v1/kv/#{path}?#{consistency}&keys=true")
+      keys = Array(String).from_json(resp.body)
+      return keys
     end
 
     # create_key creates or updates an key. The return value is either true or false,

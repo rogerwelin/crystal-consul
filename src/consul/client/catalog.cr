@@ -70,9 +70,11 @@ module Consul
     def get_services(datacenter : String? = nil, node_meta : String? = nil) : Hash(String, Array(String))
       endpoint = "/v1/catalog/services"
       consistency = get_consistency()
-      val = Consul::Util.build_query_params({"#{consistency}" => "",
-                                             "dc"             => datacenter,
-                                             "node-meta"      => node_meta})
+      val = Consul::Util.build_query_params({
+        "#{consistency}" => "",
+        "dc"             => datacenter,
+        "node-meta"      => node_meta,
+      })
 
       if val
         endpoint = "#{endpoint}#{val}"
@@ -87,8 +89,10 @@ module Consul
       endpoint = "/v1/catalog/service/#{service}"
       consistency = get_consistency()
 
-      val = Consul::Util.build_query_params({"#{consistency}" => "",
-                                             "dc"             => datacenter})
+      val = Consul::Util.build_query_params({
+        "#{consistency}" => "",
+        "dc"             => datacenter,
+      })
 
       if val
         endpoint = "#{endpoint}#{val}"
@@ -110,11 +114,13 @@ module Consul
       endpoint = "/v1/catalog/service/#{service}"
       consistency = get_consistency()
 
-      val = Consul::Util.build_query_params({"#{consistency}" => "",
-                                             "dc"             => datacenter,
-                                             "tag"            => tag,
-                                             "near"           => near,
-                                             "node-meta"      => node_meta})
+      val = Consul::Util.build_query_params({
+        "#{consistency}" => "",
+        "dc"             => datacenter,
+        "tag"            => tag,
+        "near"           => near,
+        "node-meta"      => node_meta,
+      })
 
       if val
         endpoint = "#{endpoint}#{val}"
@@ -139,9 +145,11 @@ module Consul
                   node_meta : String? = nil) : Array(Consul::Types::Catalog::Node)
       endpoint = "/v1/catalog/nodes"
       consistency = get_consistency()
-      val = Consul::Util.build_query_params({"#{consistency}" => "",
-                                             "near"           => near,
-                                             "node-meta"      => node_meta})
+      val = Consul::Util.build_query_params({
+        "#{consistency}" => "",
+        "near"           => near,
+        "node-meta"      => node_meta,
+      })
 
       if val
         endpoint = "#{endpoint}#{val}"
