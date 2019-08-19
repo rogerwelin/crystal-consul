@@ -13,7 +13,11 @@ module Consul
 
       arg.each do |key, val|
         unless val.nil?
-          valid << "#{key}=#{val}"
+          if val.empty?
+            valid << key
+          else
+            valid << "#{key}=#{val}"
+          end
         end
       end
 

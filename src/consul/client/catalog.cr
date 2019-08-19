@@ -82,6 +82,7 @@ module Consul
     end
 
     # get_services_for_node returns the node's registered services
+    # TO-DO fix parameters
     def get_services_for_node(
       service : String,
       datacenter : String? = nil,
@@ -90,11 +91,15 @@ module Consul
       node_meta : String? = nil
     ) : Array(Consul::Types::Catalog::NodeService)
       endpoint = "/v1/catalog/service/#{service}"
+      consistency = get_consistency()
 
-      val = Consul::Util.validate_query_parameters({"dc"        => datacenter,
-                                                    "tag"       => tag,
-                                                    "near"      => near,
-                                                    "node-meta" => node_meta})
+      val = Consul::Util.validate_query_parameters({"#{consistency}" => "",
+                                                    "dc"             => datacenter,
+                                                    "tag"            => tag,
+                                                    "near"           => near,
+                                                    "node-meta"      => node_meta})
+
+      puts val
 
       if val
         endpoint = "#{endpoint}#{val}"
