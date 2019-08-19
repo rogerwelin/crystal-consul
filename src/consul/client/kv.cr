@@ -13,6 +13,17 @@ module Consul
       return keyval
     end
 
+    # overload get_key
+    def get_key(path : String, recurse : Bool) : Array(Consul::Types::KV::KvPair)
+      resp   = get("/v1/kv/#{path}?recurse=true")
+      kv     = Array(Consul::Types::KV::KV).from_json(resp.body)
+      keyvals = [] of Consul::Types::KV::KvPair
+      kv.each do |kvpair|
+        keyvals << Consul::Types::KV::KvPair.new(kvpair.key, Base64.decode_string(kvpair.value))
+      end
+      return keyvals
+    end
+
     # create_key creates or updates an key. The return value is either true or false,
     # indicating whether the create/update succeeded
     def create_key(path : String, content : String)

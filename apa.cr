@@ -23,8 +23,10 @@ puts service1.port
 puts "-------------------"
 
 puts "-------------------"
-puts c.kv.create_key("animal/apa", "gorilla")
-kv = c.kv.get_key("animal/apa")
+c.kv.create_key("animal/apa", "gorilla")
+c.kv.create_key("animal/apa2", "gorilla")
+kv = c.kv.get_key("animal/apa2", true)
+puts kv
 # kv = c.kv.get_key("apa")
 
 begin
@@ -39,7 +41,7 @@ rescue ex : Consul::Error::NotFound
   puts "Should be 404: #{ex}"
 end
 
-puts kv.value
+# puts kv.value
 c.kv.delete_key("animal/apa")
 puts "-------------------"
 

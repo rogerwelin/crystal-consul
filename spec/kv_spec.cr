@@ -9,6 +9,12 @@ describe Consul do
       c.kv.get_key("animal/monkey").should be_a Consul::Types::KV::KvPair
     end
 
+    it "should return expected recurse kv type" do
+      c = Consul.client()
+      c.kv.create_key("animal/monkey", "gorilla")
+      c.kv.get_key("animal/monkey", recurse: true).should be_a Array(Consul::Types::KV::KvPair)
+    end
+
     it "should return expected kv value" do
       c = Consul.client()
       c.kv.get_key("animal/monkey").value.should eq "gorilla"
