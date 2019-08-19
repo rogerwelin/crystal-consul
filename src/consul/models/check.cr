@@ -31,7 +31,7 @@ module Consul
     )
 
     def initialize(
-      @name : String,
+      @name : String = "",
       @id : String? = nil,
       @interval : String? = nil,
       @notes : String? = nil,

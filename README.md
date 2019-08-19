@@ -38,7 +38,6 @@ c.kv.get_key("stage/service-example/version")
 c.kv.get_key("stage", recurse: true)
 # [Consul::Types::KV::KvPair(@key="stage/service-example/tag", @value="master"), Consul::Types::KV::KvPair(@key="stage/service-example/version", @value="1")]
 
-
 # register a service on the local agent
 service = Consul::Service.new()
 service.service = "service-example"
