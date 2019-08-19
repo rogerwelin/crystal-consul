@@ -34,6 +34,39 @@ rescue ex : Consul::Error::NotFound
 end
 ```
 
+### Agent
+
+```crystal
+# register a service on the local agent
+service = Consul::Service.new()
+service.service = "service-example"
+service.tags = ["master"]
+service.port = 9922
+
+c.agent.register_service(service)
+
+# get services that are registered on the local agent
+c.agent.get_services()
+# {"service-example" => #<Consul::Types::Agent::Service:0x7f666e3a16c0 @id="service-example", @service="service-example", @tags=["master"], @port=9922, @address="127.0.0.1">}
+
+# get service configuration for a specified service by name
+c.agent.get_service_conf("service-example")
+# <Consul::Types::Agent::ServiceConf:0x7f167f191a50 @kind=nil, @id="service-example", @service="service-example", @tags=["master"], @meta={}, @address="", @port=9922, @enable_tag_override=false, @content_hash="631ec0c28596219c">
+
+# deregister a service by service id
+c.agent.deregister_service("service-example")
+
+# register a check on the local agent
+check = Consul::Service.new()
+check.name = "check kibana"
+check.http = "http://localhost:9200"
+check.interval = "10s"
+
+c.agent.register_check(check)
+
+```
+
+
 ### Catalog
 
 ```crystal

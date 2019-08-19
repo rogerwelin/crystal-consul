@@ -1,6 +1,5 @@
 require "./src/*"
 require "base64"
-
 # https://crystal-lang.org/api/0.30.0/JSON/Serializable.html
 
 c1 = Consul.client(host: "localhost", port: 8500, token: "abc234")
@@ -110,10 +109,13 @@ c.agent.register_service(service2)
 # c.agent.register_service(name: "kallekula", port: 7777, tags: ["master"], check: check)
 puts "-------------------"
 
-puts "-------------------"
+puts "Agent-------------------"
 s = c.agent.get_services
 puts s
 ss = c.agent.get_service_conf(name: "kallekula5")
+puts ss
+p ss
+puts typeof(ss)
 puts ss.service
 puts ss.tags
 h = c.agent.get_service_health("kallekula5")
