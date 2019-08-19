@@ -46,9 +46,9 @@ service.tags = ["master"]
 service.port = 9922
 
 c.agent.register_service(service)
-
-
 ```
+
+For more examples and usage view [the example page](https://github.com/rogerwelin/crystal-consul/blob/master/examples/examples.md)
 
 
 ## Project Status
