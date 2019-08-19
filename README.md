@@ -3,7 +3,7 @@
 [![Language](https://img.shields.io/badge/language-crystal-776791.svg)](https://github.com/crystal-lang/crystal)
 [![Build Status](https://travis-ci.org/rogerwelin/crystal-consul.svg?branch=master)](https://travis-ci.org/rogerwelin/crystal-consul)
 
-TODO: Write a description here
+Crystal client for Consul HTTP API. For more informaion about the Consul HTTP API, go [here](https://www.consul.io/api/index.html).
 
 ## Installation
 
@@ -42,6 +42,7 @@ service.tags = ["master"]
 service.port = 9922
 
 c.agent.register_service(service)
+
 
 ```
 
