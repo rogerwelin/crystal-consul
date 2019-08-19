@@ -1,6 +1,7 @@
 require "../types/*"
 require "../httpagent"
 require "../models/service"
+require "../util"
 
 module Consul
   class Catalog < Consul::HttpAgent
@@ -12,7 +13,6 @@ module Consul
       address     : String,
       id          : String? = nil,
       datacenter  : String? = nil,
-      #service     : Hash(String, String | Array(String))? = nil,
       service     : Consul::Service? = nil,
       check       : Hash(String, String)? = nil,
       node_meta   : Hash(String, String)? = nil
@@ -83,7 +83,28 @@ module Consul
     end
 
     # list_services_for_node returns the node's registered services
-    def list_services_for_node()
+    def list_services_for_node(
+      service     : String,
+      datacenter  : String? = nil,
+      tag         : String? = nil,
+      near        : String? = nil,
+      node_meta   : String? = nil
+      ) : Array(Consul::Types::Catalog::NodeService)
+
+      endpoint = "/v1/catalog/service/#{service}"
+
+      val = Consul::Util.validate_query_parameters({"dc" => datacenter, 
+        "tag" => tag,
+        "near" => near, 
+        "node-meta" => node_meta})
+
+      if val
+        endpoint = "#{endpoint}#{val}"
+      end
+
+      resp = get(endpoint)
+      services = Array(Consul::Types::Catalog::NodeService).from_json(resp.body)
+      return services
     end
 
     # list_datacenters returns the list of all known datacenters. 

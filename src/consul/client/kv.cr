@@ -16,14 +16,12 @@ module Consul
     # create_key creates or updates an key. The return value is either true or false,
     # indicating whether the create/update succeeded
     def create_key(path : String, content : String)
-      resp = put("/v1/kv/#{path}", data: content)
-      puts resp.status_code
+      put("/v1/kv/#{path}", data: content)
     end
 
     # delete_key deletes a single key or all keys sharing a prefix
     def delete_key(path : String)
-      resp = delete("/v1/kv/#{path}")
-      puts resp.status_code
+      delete("/v1/kv/#{path}")
     end
 
   end
