@@ -23,9 +23,9 @@ puts service1.port
 puts "-------------------"
 
 puts "-------------------"
-c.kv.create_key("animal/apa", "gorilla")
-c.kv.create_key("animal/apa2", "gorilla")
-kv = c.kv.get_key("animal/apa2", true)
+c.kv.create_key("animal2/service-example/version", "1")
+c.kv.create_key("animal2/service-example/tag", "master")
+kv = c.kv.get_key("animal2", true)
 puts kv
 # kv = c.kv.get_key("apa")
 

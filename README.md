@@ -27,15 +27,17 @@ require "consul"
 c = Consul.client()
 
 # create a key
-c.kv.create_key("stage/my_app", "version: 1")
+c.kv.create_key("stage/service-example/version", "1")
+c.kv.create_key("stage/service-example/tag", "master")
 
 # read key
-c.kv.get_key("stage/my_app")
-# Consul::Types::KV::KvPair(@key="stage/myapp", @value="version: 1")
+c.kv.get_key("stage/service-example/version")
+# Consul::Types::KV::KvPair(@key="stage/service-example/version", @value="1")
 
 # you can also get keys recursively
 c.kv.get_key("stage", recurse: true)
-# [Consul::Types::KV::KvPair(@key="stage/myapp", @value="version: 1")]
+[Consul::Types::KV::KvPair(@key="stage/service-example/tag", @value="master"), Consul::Types::KV::KvPair(@key="stage/service-example/version", @value="1")]
+
 
 # register a service on the local agent
 service = Consul::Service.new()
