@@ -2,9 +2,8 @@ require "../httpagent"
 
 module Consul
   class Status < Consul::HttpAgent
-
     # get_leader returns the Raft leader for the datacenter in which the agent is running
-    def get_leader() : String
+    def get_leader : String
       resp = get("/v1/status/leader")
       return resp.body
     end
@@ -17,10 +16,9 @@ module Consul
         url = "#{url}?dc=#{datacenter}"
       end
 
-      resp  = get(url)
+      resp = get(url)
       peers = Array(String).from_json(resp.body)
       return peers
     end
-
   end
 end

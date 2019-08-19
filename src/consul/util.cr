@@ -10,17 +10,17 @@ module Consul
       valid = [] of String
       index = 0
       build_url = ""
-    
+
       arg.each do |key, val|
         unless val.nil?
           valid << "#{key}=#{val}"
         end
       end
-    
+
       if valid.empty?
         return false
       end
-    
+
       if valid.size == 1
         return "?#{valid[0]}"
       else
@@ -47,6 +47,5 @@ module Consul
       when 500 then raise Consul::Error::InternalServerError.new(resp)
       end
     end
-      
   end
 end

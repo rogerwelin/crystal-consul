@@ -3,23 +3,23 @@ require "./spec_helper"
 describe Consul do
   context ".Client" do
     it "should be a Consul::Client" do
-      Consul.client().should be_a Consul::Client
+      Consul.client.should be_a Consul::Client
     end
 
     it "should set default host to 127.0.01" do
-      Consul.client().host.should eq "127.0.0.1"
+      Consul.client.host.should eq "127.0.0.1"
     end
 
     it "shoul set default port to 8500" do
-      Consul.client().port.should eq 8500
+      Consul.client.port.should eq 8500
     end
 
     it "should set default scheme to http" do
-      Consul.client().scheme.should eq "http"
+      Consul.client.scheme.should eq "http"
     end
 
     it "should se default token to empty" do
-      Consul.client().token.should eq ""
+      Consul.client.token.should eq ""
     end
 
     it "should set token 'X-Consul-Token' when provided" do
@@ -27,7 +27,7 @@ describe Consul do
     end
 
     it "should set default consistency" do
-      Consul.client().consistency.should eq "default"
+      Consul.client.consistency.should eq "default"
     end
 
     it "should set consistency when provided" do

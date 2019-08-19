@@ -5,19 +5,17 @@ require "../util"
 
 module Consul
   class Catalog < Consul::HttpAgent
-
-    # register is a low-level mechanism for registering or updating entries in the catalog. 
+    # register is a low-level mechanism for registering or updating entries in the catalog.
     # It is usually preferable to instead use the agent endpoints for registration as they are simpler and perform anti-entropy
     def register(
-      node        : String, 
-      address     : String,
-      id          : String? = nil,
-      datacenter  : String? = nil,
-      service     : Consul::Service? = nil,
-      check       : Hash(String, String)? = nil,
-      node_meta   : Hash(String, String)? = nil
-      )
-
+      node : String,
+      address : String,
+      id : String? = nil,
+      datacenter : String? = nil,
+      service : Consul::Service? = nil,
+      check : Hash(String, String)? = nil,
+      node_meta : Hash(String, String)? = nil
+    )
       data = {"Node" => node, "Address" => address}
 
       unless id.nil?
@@ -43,15 +41,14 @@ module Consul
       put("/v1/catalog/register", data: data.to_json)
     end
 
-    # deregister is a low-level mechanism for directly removing entries from the Catalog. 
+    # deregister is a low-level mechanism for directly removing entries from the Catalog.
     # It is usually preferable to instead use the agent endpoints for deregistration as they are simpler and perform anti-entropy
     def deregister(
-      node        : String,
-      datacenter  : String? = nil,
-      check_id    : String? = nil,
-      service_id  : String? = nil?
-      )
-
+      node : String,
+      datacenter : String? = nil,
+      check_id : String? = nil,
+      service_id : String? = nil?
+    )
       data = {"Node" => node}
 
       unless datacenter.nil?
@@ -70,33 +67,32 @@ module Consul
     end
 
     # get_services returns the services registered in a given datacenter
-    def get_services() : Hash(String, Array(String))
+    def get_services : Hash(String, Array(String))
       resp = get("/v1/catalog/services")
       return Hash(String, Array(String)).from_json(resp.body)
     end
 
     # get_nodes_for_service returns the nodes providing a service in a given datacenter
     def get_nodes_for_service(service : String) : Array(Consul::Types::Catalog::NodeService)
-      resp  = get("/v1/catalog/service/#{service}")
+      resp = get("/v1/catalog/service/#{service}")
       nodes = Array(Consul::Types::Catalog::NodeService).from_json(resp.body)
       return nodes
     end
 
     # get_services_for_node returns the node's registered services
     def get_services_for_node(
-      service     : String,
-      datacenter  : String? = nil,
-      tag         : String? = nil,
-      near        : String? = nil,
-      node_meta   : String? = nil
-      ) : Array(Consul::Types::Catalog::NodeService)
-
+      service : String,
+      datacenter : String? = nil,
+      tag : String? = nil,
+      near : String? = nil,
+      node_meta : String? = nil
+    ) : Array(Consul::Types::Catalog::NodeService)
       endpoint = "/v1/catalog/service/#{service}"
 
-      val = Consul::Util.validate_query_parameters({"dc" => datacenter, 
-        "tag" => tag,
-        "near" => near, 
-        "node-meta" => node_meta})
+      val = Consul::Util.validate_query_parameters({"dc"        => datacenter,
+                                                    "tag"       => tag,
+                                                    "near"      => near,
+                                                    "node-meta" => node_meta})
 
       if val
         endpoint = "#{endpoint}#{val}"
@@ -107,20 +103,19 @@ module Consul
       return services
     end
 
-    # get_datacenters returns the list of all known datacenters. 
-    # The datacenters will be sorted in ascending order based on the estimated median 
+    # get_datacenters returns the list of all known datacenters.
+    # The datacenters will be sorted in ascending order based on the estimated median
     # round trip time from the server to the servers in that datacenter
-    def get_datacenters() : Array(String)
+    def get_datacenters : Array(String)
       resp = get("/v1/catalog/datacenters")
       dc = Array(String).from_json(resp.body)
     end
 
     # get_nodes returns the nodes registered in a given datacenter
-    def get_nodes() : Array(Consul::Types::Catalog::Node)
-      resp  = get("/v1/catalog/nodes")
+    def get_nodes : Array(Consul::Types::Catalog::Node)
+      resp = get("/v1/catalog/nodes")
       nodes = Array(Consul::Types::Catalog::Node).from_json(resp.body)
       return nodes
     end
-
   end
 end

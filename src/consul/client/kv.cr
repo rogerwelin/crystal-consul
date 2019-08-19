@@ -4,19 +4,18 @@ require "../httpagent"
 
 module Consul
   class KV < Consul::HttpAgent
-
     # get_key returns the specified key. If no key exists at the given path, a 404 is returned instead of a 200 response
     def get_key(path : String) : Consul::Types::KV::KvPair
-      resp   = get("/v1/kv/#{path}")
-      kv     = Array(Consul::Types::KV::KV).from_json(resp.body)
+      resp = get("/v1/kv/#{path}")
+      kv = Array(Consul::Types::KV::KV).from_json(resp.body)
       keyval = Consul::Types::KV::KvPair.new(kv.first.key, Base64.decode_string(kv.first.value))
       return keyval
     end
 
     # overload get_key
     def get_key(path : String, recurse : Bool) : Array(Consul::Types::KV::KvPair)
-      resp   = get("/v1/kv/#{path}?recurse=true")
-      kv     = Array(Consul::Types::KV::KV).from_json(resp.body)
+      resp = get("/v1/kv/#{path}?recurse=true")
+      kv = Array(Consul::Types::KV::KV).from_json(resp.body)
       keyvals = [] of Consul::Types::KV::KvPair
       kv.each do |kvpair|
         keyvals << Consul::Types::KV::KvPair.new(kvpair.key, Base64.decode_string(kvpair.value))
@@ -34,6 +33,5 @@ module Consul
     def delete_key(path : String)
       delete("/v1/kv/#{path}")
     end
-
   end
 end

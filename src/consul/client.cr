@@ -6,19 +6,17 @@ require "uri"
 
 module Consul
   class Client
-
     getter host, port, scheme, token, consistency
     getter kv, catalog, status, agent, event, health, coordinate
     getter snapshot
 
     def initialize(
-      @host        : String = "127.0.0.1", 
-      @port        : Int32 = 8500,
-      @scheme      : String = "http",
-      @token       : String = "",
+      @host : String = "127.0.0.1",
+      @port : Int32 = 8500,
+      @scheme : String = "http",
+      @token : String = "",
       @consistency : String = "default" # to be implemented
-      )
-
+    )
       if consistency === "default" || consistency === "consistent" || consistency === "stale"
       else
         raise "Error: #{consistency} is not a valid consistency option"
@@ -26,14 +24,14 @@ module Consul
 
       client = http_client_instance("#{scheme}://#{host}:#{port}", token)
 
-      @kv         = Consul::KV.new(client)
-      @catalog    = Consul::Catalog.new(client)
-      @status     = Consul::Status.new(client)
-      @agent      = Consul::Agent.new(client)
-      @event      = Consul::Event.new(client)
-      @health     = Consul::Health.new(client)
+      @kv = Consul::KV.new(client)
+      @catalog = Consul::Catalog.new(client)
+      @status = Consul::Status.new(client)
+      @agent = Consul::Agent.new(client)
+      @event = Consul::Event.new(client)
+      @health = Consul::Health.new(client)
       @coordinate = Consul::Coordinate.new(client)
-      @snapshot   = Consul::Snapshot.new(client)
+      @snapshot = Consul::Snapshot.new(client)
     end
 
     private def http_client_instance(uri : String, token : String? = nil) : HTTP::Client
@@ -49,6 +47,5 @@ module Consul
 
       return client
     end
-
   end
 end

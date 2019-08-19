@@ -13,18 +13,22 @@ module Consul
 
       private def build_error_message
         "Server responded with code #{resp.status_code}, message: " \
-        "#{resp.body}" 
+        "#{resp.body}"
       end
-
     end
 
     class BadRequest < ApiError; end
-    class Unauthorized < ApiError; end
-    class Forbidden < ApiError; end
-    class RequestTimeout < ApiError; end
-    class NotFound < ApiError; end
-    class PayloadTooLarge < ApiError; end
-    class InternalServerError < ApiError; end
 
+    class Unauthorized < ApiError; end
+
+    class Forbidden < ApiError; end
+
+    class RequestTimeout < ApiError; end
+
+    class NotFound < ApiError; end
+
+    class PayloadTooLarge < ApiError; end
+
+    class InternalServerError < ApiError; end
   end
 end

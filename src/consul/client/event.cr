@@ -3,16 +3,14 @@ require "../httpagent"
 
 module Consul
   class Event < Consul::HttpAgent
-
     # create_event triggers a new user event
     def create_event(
-      name        : String, 
-      datacenter  : String? = nil,
-      node        : String? = nil,
-      service     : String? = nil,
-      tag         : String? = nil
-      ) : Consul::Types::Event::Event
-
+      name : String,
+      datacenter : String? = nil,
+      node : String? = nil,
+      service : String? = nil,
+      tag : String? = nil
+    ) : Consul::Types::Event::Event
       data = {} of String => String
 
       unless datacenter.nil?
@@ -28,7 +26,7 @@ module Consul
       end
 
       unless tag.nil?
-          data["tag"] = tag
+        data["tag"] = tag
       end
 
       resp = put("/v1/event/fire/#{name}", data: data.to_json)
@@ -37,12 +35,11 @@ module Consul
 
     # get_events returns the most recent events (up to 256) known by the agent
     def get_events(
-      name        : String? = nil, 
-      node        : String? = nil,
-      service     : String? = nil,
-      tag         : String? = nil
-      ) : Array(Consul::Types::Event::Event)
-
+      name : String? = nil,
+      node : String? = nil,
+      service : String? = nil,
+      tag : String? = nil
+    ) : Array(Consul::Types::Event::Event)
       endpoint = "/v1/event/list"
 
       unless name.nil?
@@ -64,6 +61,5 @@ module Consul
       resp = get(endpoint)
       return Array(Consul::Types::Event::Event).from_json(resp.body)
     end
-  
-    end
   end
+end

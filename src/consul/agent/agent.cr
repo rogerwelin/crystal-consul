@@ -5,9 +5,8 @@ require "../types/*"
 
 module Consul
   class Agent < Consul::HttpAgent
-
     # get_services returns all the services that are registered with the local agent
-    def get_services() : Hash(String, Consul::Types::Agent::Service)
+    def get_services : Hash(String, Consul::Types::Agent::Service)
       resp = get("/v1/agent/services")
       return Hash(String, Consul::Types::Agent::Service).from_json(resp.body)
     end
@@ -24,7 +23,7 @@ module Consul
       return Array(Consul::Types::Agent::ServiceHealth).from_json(resp.body)
     end
 
-    #TO-DO: get service by id
+    # TO-DO: get service by id
 
     # register_service adds a new service, with an optional health check, to the local agent
     # TO-DO: implement kind, proxy, connect
@@ -37,7 +36,7 @@ module Consul
       put("/v1/agent/service/deregister/#{service_id}")
     end
 
-    # set_serice_maintenence places a given service into "maintenance mode". 
+    # set_serice_maintenence places a given service into "maintenance mode".
     # During maintenance mode, the service will be marked as unavailable and will not be present in DNS or API queries
     def set_service_maintenenance(service_id : String, enable : Bool, reason = "")
       if reason != ""
@@ -48,19 +47,19 @@ module Consul
       end
     end
 
-    # get_checks returns all checks that are registered with the local agent. 
-    def get_checks() : Hash(String, Consul::Types::Agent::Check)
+    # get_checks returns all checks that are registered with the local agent.
+    def get_checks : Hash(String, Consul::Types::Agent::Check)
       resp = get("/v1/agent/checks")
       return Hash(String, Consul::Types::Agent::Check).from_json(resp.body)
     end
 
-    # register_check adds a new check to the local agent. Checks may be of script, HTTP, TCP, or TTL type. 
+    # register_check adds a new check to the local agent. Checks may be of script, HTTP, TCP, or TTL type.
     # The agent is responsible for managing the status of the check and keeping the Catalog in sync
     def register_check(check : Consul::Check)
       put("/v1/agent/check/register", data: check.to_json)
     end
 
-    # deregister_check remove a check from the local agent. The agent will take care of deregistering the check from 
+    # deregister_check remove a check from the local agent. The agent will take care of deregistering the check from
     # the catalog. If the check with the provided ID does not exist, no action is taken
     def deregister_check(check_id : String)
       put("/v1/agent/check/deregister/#{check_id}")
@@ -99,6 +98,5 @@ module Consul
         put("/v1/agent/check/update/#{check_id}", data: data.to_json)
       end
     end
-
   end
 end
