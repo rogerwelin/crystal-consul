@@ -57,18 +57,18 @@ c.catalog.register(
 puts "-------------------"
 
 puts "-------------------"
-dc = c.catalog.list_datacenters
+dc = c.catalog.get_datacenters
 puts dc
 puts typeof(dc)
 puts "-------------------"
 
 puts "-------------------"
-services = c.catalog.list_services
+services = c.catalog.get_services
 puts services
 puts "-------------------"
 
 puts "-------------------"
-nodes = c.catalog.list_nodes
+nodes = c.catalog.get_nodes
 # c.catalog.deregister("")
 puts nodes
 nodes.each do |node|
@@ -77,7 +77,7 @@ end
 puts "-------------------"
 
 puts "-------------------"
-nodes = c.catalog.list_nodes_for_service(service: "redis")
+nodes = c.catalog.get_nodes_for_service(service: "redis")
 puts nodes
 puts "-------------------"
 
@@ -87,7 +87,7 @@ puts leader
 puts "-------------------"
 
 puts "-------------------"
-peers = c.status.list_raft_peers
+peers = c.status.get_raft_peers
 puts peers
 puts typeof(peers)
 puts "-------------------"

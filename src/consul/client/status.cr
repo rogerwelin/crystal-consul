@@ -9,8 +9,8 @@ module Consul
       return resp.body
     end
 
-    # list_raft_peers retrieves the Raft peers for the datacenter in which the the agent is running
-    def list_raft_peers(datacenter : String? = nil) : Array(String)
+    # get_raft_peers retrieves the Raft peers for the datacenter in which the the agent is running
+    def get_raft_peers(datacenter : String? = nil) : Array(String)
       url = "/v1/status/peers"
 
       unless datacenter.nil?

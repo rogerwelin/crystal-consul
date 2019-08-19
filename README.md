@@ -37,7 +37,7 @@ c.kv.get_key("stage", recurse: true)
 
 # register a service on the local agent
 service = Consul::Service.new()
-service.serice = "service-example"
+service.service = "service-example"
 service.tags = ["master"]
 service.port = 9922
 

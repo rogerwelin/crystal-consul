@@ -69,21 +69,21 @@ module Consul
       put(client, "/v1/catalog/deregister", data: data.to_json)
     end
 
-    # list_services returns the services registered in a given datacenter
-    def list_services() : Hash(String, Array(String))
+    # get_services returns the services registered in a given datacenter
+    def get_services() : Hash(String, Array(String))
       resp = get("/v1/catalog/services")
       return Hash(String, Array(String)).from_json(resp.body)
     end
 
-    # list_nodes_for_service returns the nodes providing a service in a given datacenter
-    def list_nodes_for_service(service : String) : Array(Consul::Types::Catalog::NodeService)
+    # get_nodes_for_service returns the nodes providing a service in a given datacenter
+    def get_nodes_for_service(service : String) : Array(Consul::Types::Catalog::NodeService)
       resp  = get("/v1/catalog/service/#{service}")
       nodes = Array(Consul::Types::Catalog::NodeService).from_json(resp.body)
       return nodes
     end
 
-    # list_services_for_node returns the node's registered services
-    def list_services_for_node(
+    # get_services_for_node returns the node's registered services
+    def get_services_for_node(
       service     : String,
       datacenter  : String? = nil,
       tag         : String? = nil,
@@ -107,16 +107,16 @@ module Consul
       return services
     end
 
-    # list_datacenters returns the list of all known datacenters. 
+    # get_datacenters returns the list of all known datacenters. 
     # The datacenters will be sorted in ascending order based on the estimated median 
     # round trip time from the server to the servers in that datacenter
-    def list_datacenters() : Array(String)
+    def get_datacenters() : Array(String)
       resp = get("/v1/catalog/datacenters")
       dc = Array(String).from_json(resp.body)
     end
 
-    # list_nodes returns the nodes registered in a given datacenter
-    def list_nodes() : Array(Consul::Types::Catalog::Node)
+    # get_nodes returns the nodes registered in a given datacenter
+    def get_nodes() : Array(Consul::Types::Catalog::Node)
       resp  = get("/v1/catalog/nodes")
       nodes = Array(Consul::Types::Catalog::Node).from_json(resp.body)
       return nodes

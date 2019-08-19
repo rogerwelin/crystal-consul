@@ -10,7 +10,7 @@ describe Consul do
 
     it "should return a array of strings for raft peers" do
       c = Consul.client()
-      c.status.list_raft_peers().should be_a Array(String)
+      c.status.get_raft_peers().should be_a Array(String)
     end
   
   end
