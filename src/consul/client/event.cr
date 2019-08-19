@@ -1,8 +1,8 @@
 require "../types/*"
-require "../httpagent"
+require "../transport"
 
 module Consul
-  class Event < Consul::HttpAgent
+  class Event < Consul::Transport
     # create_event triggers a new user event
     def create_event(
       name : String,

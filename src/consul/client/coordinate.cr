@@ -1,7 +1,7 @@
 require "../types/*"
 
 module Consul
-  class Coordinate < Consul::HttpAgent
+  class Coordinate < Consul::Transport
     # get_wan_coordinates returns the WAN network coordinates for all Consul servers, organized by datacenters
     def get_wan_coordinates : Array(Consul::Types::Coordinate::Wan)
       resp = get("/v1/coordinate/datacenters")
@@ -10,13 +10,15 @@ module Consul
 
     # get_lan_coordinates returns the LAN network coordinates for all nodes in a given datacenter
     def get_lan_coordinates : Array(Consul::Types::Coordinate::Lan)
-      resp = get("/v1/coordinate/nodes")
+      consistency = get_consistency()
+      resp = get("/v1/coordinate/nodes?#{consistency}")
       return Array(Consul::Types::Coordinate::Lan).from_json(resp.body)
     end
 
     # get_lan_coordinates with node returns the LAN network coordinates for the given node
     def get_node_lan_coordinates(node : String) : Array(Consul::Types::Coordinate::Lan)
-      resp = get("/v1/coordinate/node/#{node}")
+      consistency = get_consistency()
+      resp = get("/v1/coordinate/node/#{node}?#{consistency}")
       return Array(Consul::Types::Coordinate::Lan).from_json(resp.body)
     end
 

@@ -1,7 +1,7 @@
-require "../httpagent"
+require "../transport"
 
 module Consul
-  class Status < Consul::HttpAgent
+  class Status < Consul::Transport
     # get_leader returns the Raft leader for the datacenter in which the agent is running
     def get_leader : String
       resp = get("/v1/status/leader")

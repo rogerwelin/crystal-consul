@@ -1,9 +1,9 @@
 require "base64"
 require "../types/*"
-require "../httpagent"
+require "../transport"
 
 module Consul
-  class KV < Consul::HttpAgent
+  class KV < Consul::Transport
     # get_key returns the specified key. If no key exists at the given path, a 404 is returned instead of a 200 response
     def get_key(path : String) : Consul::Types::KV::KvPair
       resp = get("/v1/kv/#{path}")

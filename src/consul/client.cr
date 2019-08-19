@@ -24,14 +24,14 @@ module Consul
 
       client = http_client_instance("#{scheme}://#{host}:#{port}", token)
 
-      @kv = Consul::KV.new(client)
-      @catalog = Consul::Catalog.new(client)
-      @status = Consul::Status.new(client)
-      @agent = Consul::Agent.new(client)
-      @event = Consul::Event.new(client)
-      @health = Consul::Health.new(client)
-      @coordinate = Consul::Coordinate.new(client)
-      @snapshot = Consul::Snapshot.new(client)
+      @kv = Consul::KV.new(client, consistency)
+      @catalog = Consul::Catalog.new(client, consistency)
+      @status = Consul::Status.new(client, consistency)
+      @agent = Consul::Agent.new(client, consistency)
+      @event = Consul::Event.new(client, consistency)
+      @health = Consul::Health.new(client, consistency)
+      @coordinate = Consul::Coordinate.new(client, consistency)
+      @snapshot = Consul::Snapshot.new(client, consistency)
     end
 
     private def http_client_instance(uri : String, token : String? = nil) : HTTP::Client

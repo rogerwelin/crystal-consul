@@ -1,7 +1,7 @@
-require "../httpagent"
+require "../transport"
 
 module Consul
-  class Snapshot < Consul::HttpAgent
+  class Snapshot < Consul::Transport
     # create_snapshot generates and returns an atomic, point-in-time snapshot of the Consul server state.
     # Snapshots are exposed as gzipped tar archives which internally contain the Raft metadata required to restore,
     # as well as a binary serialized version of the Consul server state

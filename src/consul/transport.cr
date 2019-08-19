@@ -2,10 +2,14 @@ require "http/client"
 require "./util"
 
 module Consul
-  class HttpAgent
-    getter client
+  class Transport
+    getter client, consistency
 
-    def initialize(@client : HTTP::Client)
+    def initialize(@client : HTTP::Client, @consistency = "default")
+    end
+
+    def get_consistency : String
+      return consistency
     end
 
     def get(path : String) : HTTP::Client::Response

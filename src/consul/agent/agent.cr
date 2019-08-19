@@ -1,10 +1,10 @@
 require "uri"
-require "../httpagent"
+require "../transport"
 require "../models/*"
 require "../types/*"
 
 module Consul
-  class Agent < Consul::HttpAgent
+  class Agent < Consul::Transport
     # get_services returns all the services that are registered with the local agent
     def get_services : Hash(String, Consul::Types::Agent::Service)
       resp = get("/v1/agent/services")

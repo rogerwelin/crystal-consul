@@ -1,10 +1,10 @@
 require "../types/*"
-require "../httpagent"
+require "../transport"
 require "../models/service"
 require "../util"
 
 module Consul
-  class Catalog < Consul::HttpAgent
+  class Catalog < Consul::Transport
     # register is a low-level mechanism for registering or updating entries in the catalog.
     # It is usually preferable to instead use the agent endpoints for registration as they are simpler and perform anti-entropy
     def register(
@@ -68,13 +68,15 @@ module Consul
 
     # get_services returns the services registered in a given datacenter
     def get_services : Hash(String, Array(String))
-      resp = get("/v1/catalog/services")
+      consistency = get_consistency()
+      resp = get("/v1/catalog/services?#{consistency}")
       return Hash(String, Array(String)).from_json(resp.body)
     end
 
     # get_nodes_for_service returns the nodes providing a service in a given datacenter
     def get_nodes_for_service(service : String) : Array(Consul::Types::Catalog::NodeService)
-      resp = get("/v1/catalog/service/#{service}")
+      consistency = get_consistency()
+      resp = get("/v1/catalog/service/#{service}?#{consistency}")
       nodes = Array(Consul::Types::Catalog::NodeService).from_json(resp.body)
       return nodes
     end
@@ -113,7 +115,8 @@ module Consul
 
     # get_nodes returns the nodes registered in a given datacenter
     def get_nodes : Array(Consul::Types::Catalog::Node)
-      resp = get("/v1/catalog/nodes")
+      consistency = get_consistency()
+      resp = get("/v1/catalog/nodes?#{consistency}")
       nodes = Array(Consul::Types::Catalog::Node).from_json(resp.body)
       return nodes
     end

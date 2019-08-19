@@ -1,9 +1,9 @@
-require "../httpagent"
+require "../transport"
 require "../types/*"
 require "../util"
 
 module Consul
-  class Health < Consul::HttpAgent
+  class Health < Consul::Transport
     # get_checks_for_node returns the checks specific to the node provided on the path
     def get_checks_for_node(node : String, datacenter : String? = nil) : Array(Consul::Types::Health::Check)
       endpoint = "/v1/health/node/#{node}"
