@@ -74,9 +74,9 @@ c.agent.register_service(service)
 ## Contributing
 Pull requests are very much appreciated! When you create a PR please ensure:
 
-#. All current tests pass
-#. To add tests for your new features, if applicable
-#. To add doc comments for new api features you add
+* All current tests pass  
+* To add tests for your new features, if applicable  
+* To add doc comments for new api features you add  
 
 
 1. Fork it (<https://github.com/rogerwelin/crystal-consul/fork>)
