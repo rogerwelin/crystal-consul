@@ -9,6 +9,7 @@ module Consul
 
     getter host, port, scheme, token, consistency
     getter kv, catalog, status, agent, event, health, coordinate
+    getter snapshot
 
     def initialize(
       @host        : String = "127.0.0.1", 
@@ -32,6 +33,7 @@ module Consul
       @event      = Consul::Event.new(client)
       @health     = Consul::Health.new(client)
       @coordinate = Consul::Coordinate.new(client)
+      @snapshot   = Consul::Snapshot.new(client)
     end
 
     private def http_client_instance(uri : String, token : String? = nil) : HTTP::Client
