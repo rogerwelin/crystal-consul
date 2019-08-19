@@ -29,10 +29,11 @@ c = Consul.client()
 c.kv.create_key("stage/my_app", "version: 1")
 
 # read key
-key = c.kv.get_key("stage/my_app")
+c.kv.get_key("stage/my_app")
 
 # you can also get keys recursively
-key = c.kv.get_key("stage", recurse: true)
+c.kv.get_key("stage", recurse: true)
+# [Consul::Types::KV::KvPair(@key="stage/myapp", @value="version: 1")]
 
 # register a service on the local agent
 service = Consul::Service.new()
@@ -44,7 +45,6 @@ c.agent.register_service(service)
 
 ```
 
-TODO: Write usage instructions here
 
 ## Development
 
