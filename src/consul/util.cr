@@ -1,5 +1,6 @@
 require "http/client"
 require "./error"
+require "uri"
 
 module Consul
   module Util
@@ -37,7 +38,7 @@ module Consul
           index += 1
         end
       end
-      return build_url
+      return URI.escape(build_url)
     end
 
     def validate_response(resp : HTTP::Client::Response)
