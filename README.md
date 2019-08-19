@@ -53,6 +53,8 @@ For more examples and usage view [the example page](https://github.com/rogerweli
 
 ## Project Status
 
+Implemented endpoints implements all consistency modes, filter options and query parameters as specified by Consul HTTP API doc.
+
 #### Completed  
 * Agent
 * Catalog
@@ -85,6 +87,7 @@ Only a working Crystal installation and Docker is required. Project does not use
 Pull requests are very much appreciated! When you create a PR please ensure:
 
 * All current tests pass  
+* To run ```crystal tool format``` on added code  
 * To add tests for your new features, if applicable  
 * To add doc comments for new api features you add  
 
