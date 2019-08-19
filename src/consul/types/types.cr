@@ -126,8 +126,8 @@ module Consul
       class Wan
         JSON.mapping(
           datacenter:   {type: String, key: "Datacenter"},
-          area_id:      {type: String, key: "WAN"},
-          coordinates:  {type: Coordinates, key: "Coordinates"}
+          area_id:      {type: String, key: "AreaID"},
+          coordinates:  {type: Array(Coordinates), key: "Coordinates"}
         )
       end
       class Lan
@@ -141,14 +141,15 @@ module Consul
         JSON.mapping(
           adjustment: {type: Int32, key: "Adjustment"},
           error:      {type: Float64, key: "Error"},
-          height:     {type: Int32, key: "Height"},
+          height:     {type: Float64, key: "Height"},
           vec:        {type: Array(Int32), key: "Vec"}
         )
       end
       class Coordinates
         JSON.mapping(
-          node:  {type: String, key: "Node"},
-          coord: {type: Coord, key: "Coord"}
+          node:    {type: String, key: "Node"},
+          segment: {type: String, key: "Segment", nilable: true},
+          coord:   {type: Coord, key: "Coord"}
         )
 
       end

@@ -9,7 +9,6 @@ before_install:
   - docker pull consul:1.5.1
   - docker run -d -p 8500:8500 consul:1.5.1
 
-# Uncomment the following if you'd like Travis to run specs and check code formatting
 script:
   - crystal spec
-  - crystal tool format --check
+#  - crystal tool format --check

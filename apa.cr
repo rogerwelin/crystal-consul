@@ -153,3 +153,6 @@ puts h
 sh = c.health.get_checks_for_service("kallekula2")
 puts sh
 puts "-------------------"
+
+co = c.coordinate.get_wan_coordinates
+puts co
