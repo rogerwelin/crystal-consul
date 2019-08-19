@@ -73,7 +73,15 @@ For more examples and usage view [the example page](https://github.com/rogerweli
 * Transactions
 
 
+## Testing
+
+Only a working Crystal installation and Docker is required. Project does not use mocks, instead all endpoints are tested against a running Consul docker container.
+
+1. Run ```docker run -d -p 8500:8500 consul:1.5.1```
+2. Run ```crystal spec``` from the project root
+
 ## Contributing
+
 Pull requests are very much appreciated! When you create a PR please ensure:
 
 * All current tests pass  
