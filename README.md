@@ -3,7 +3,8 @@
 [![Language](https://img.shields.io/badge/language-crystal-776791.svg)](https://github.com/crystal-lang/crystal)
 [![Build Status](https://travis-ci.org/rogerwelin/crystal-consul.svg?branch=master)](https://travis-ci.org/rogerwelin/crystal-consul)
 
-Crystal client for Consul HTTP API. For more informaion about the Consul HTTP API, go [here](https://www.consul.io/api/index.html).
+Crystal client for Consul HTTP API. For more information about the Consul HTTP API, go [here](https://www.consul.io/api/index.html).
+Crystal-consul does not use any depenencies outside stdlib, hence no transitive dependencies when you include it in your project. 
 
 ## Installation
 
@@ -30,6 +31,7 @@ c.kv.create_key("stage/my_app", "version: 1")
 
 # read key
 c.kv.get_key("stage/my_app")
+# Consul::Types::KV::KvPair(@key="stage/myapp", @value="version: 1")
 
 # you can also get keys recursively
 c.kv.get_key("stage", recurse: true)
@@ -47,9 +49,27 @@ c.agent.register_service(service)
 ```
 
 
-## Development
+## Project Status
 
-TODO: Write development instructions here
+#### Completed  
+* Agent
+* Catalog
+* Coordinates
+* Events
+* Health
+* KV Store
+* Snapshots
+* Status
+
+#### TO-DO  
+* ACLs
+* Config
+* Connect
+* Operator
+* Prepared Queries
+* Sessions
+* Transactions
+
 
 ## Contributing
 
