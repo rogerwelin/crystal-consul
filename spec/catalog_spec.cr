@@ -12,6 +12,11 @@ describe Consul do
       c = Consul.client()
       c.catalog.list_nodes().should be_a Array(Consul::Types::Catalog::Node)
     end
+
+    it "should list services with expected type" do
+      c = Consul.client()
+      c.catalog.list_services().should be_a Hash(String, Array(String))
+    end
   
   end
 end

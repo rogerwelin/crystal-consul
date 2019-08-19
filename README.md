@@ -17,10 +17,31 @@ TODO: Write a description here
 
 2. Run `shards install`
 
-## Usage
+## Example Usage
 
 ```crystal
 require "consul"
+
+# create a default client
+c = Consul.client()
+
+# create a key
+c.kv.create_key("stage/my_app", "version: 1")
+
+# read key
+key = c.kv.get_key("stage/my_app")
+
+# you can also get keys recursively
+key = c.kv.get_key("stage", recurse: true)
+
+# register a service on the local agent
+service = Consul::Service.new()
+service.serice = "service-example"
+service.tags = ["master"]
+service.port = 9922
+
+c.agent.register_service(service)
+
 ```
 
 TODO: Write usage instructions here
