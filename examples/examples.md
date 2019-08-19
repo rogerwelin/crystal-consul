@@ -2,6 +2,7 @@
 ### Creating a client
 
 ```crystal
+# create a default client
 c = Consul.client()
 
 # create a client by specifying host and port
@@ -57,7 +58,7 @@ c.agent.get_service_conf("service-example")
 c.agent.deregister_service("service-example")
 
 # register a check on the local agent
-check = Consul::Service.new()
+check = Consul::Check.new()
 check.name = "check kibana"
 check.http = "http://localhost:9200"
 check.interval = "10s"
