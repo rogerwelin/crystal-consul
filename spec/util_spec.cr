@@ -18,8 +18,8 @@ describe Consul do
     end
 
     it "should return a valid url encoded query params" do
-      c = Consul::Util.build_query_params({"service" => "service-x", "filter" => "filter=Meta.env == qa"})
-      c.should eq "%3Fservice%3Dservice-x%26filter%3Dfilter%3DMeta.env%20%3D%3D%20qa"
+      c = Consul::Util.build_query_params({"service" => "service-x", "filter" => "Meta.env == qa"})
+      c.should eq "%3Fservice%3Dservice-x%26filter%3DMeta.env%20%3D%3D%20qa"
     end
   end
 end
