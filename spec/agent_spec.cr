@@ -67,6 +67,12 @@ describe Consul do
       service_health[0].service.service.should eq "test-service"
     end
 
+    it "should deregister services" do
+      c = Consul.client
+      c.agent.deregister_service("test-service")
+      c.agent.deregister_service("service-proxy")
+    end
+
     it "should create check" do
       c = Consul.client
       check = Consul::Check.new(

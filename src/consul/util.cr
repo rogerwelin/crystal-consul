@@ -33,12 +33,17 @@ module Consul
           if index == 0
             build_url = "?#{val}"
           else
-            build_url = "#{build_url}&#{val}"
+            if val.includes?("filter=")
+              val = URI.escape(val)
+              build_url = "#{build_url}&#{val}"
+            else
+              build_url = "#{build_url}&#{val}"
+            end
           end
           index += 1
         end
       end
-      return URI.escape(build_url)
+      return build_url
     end
 
     def validate_response(resp : HTTP::Client::Response)

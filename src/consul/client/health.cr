@@ -28,7 +28,6 @@ module Consul
     end
 
     # get_checks_for_service returns the checks associated with the service provided on the path
-    # TO-DO: build up the url parameters
     def get_checks_for_service(
       service : String,
       datacenter : String? = nil,
@@ -56,7 +55,6 @@ module Consul
     end
 
     # get_nodes_for_service returns the nodes providing the service indicated on the path
-    # TO-DO implement return type
     def get_nodes_for_service(
       service : String,
       datacenter : String? = nil,
@@ -65,7 +63,7 @@ module Consul
       node_meta : String? = nil,
       passing : String? = nil,
       filter : String? = nil
-    )
+    ) : Array(Consul::Types::Health::NodeService)
       endpoint = "/v1/health/service/#{service}"
       consistency = get_consistency()
 
@@ -82,12 +80,16 @@ module Consul
       if val
         endpoint = "#{endpoint}#{val}"
       end
+
+      resp = get(endpoint)
+      return Array(Consul::Types::Health::NodeService).from_json(resp.body)
     end
 
     # get_connect_nodes returns the nodes providing a Connect-capable service in a given datacenter.
     # This will include both proxies and native integrations
-    # TO-DO: implement
-    def get_connect_nodes
+    def get_connect_nodes(service : String) : Array(Consul::Types::Health::NodeService)
+      resp = get("/v1/health/connect/#{service}")
+      return Array(Consul::Types::Health::NodeService).from_json(resp.body)
     end
 
     # get_checks_in_state returns the checks in the state provided on the path

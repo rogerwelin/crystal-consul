@@ -79,7 +79,10 @@ module Consul
           check_id: {type: String, key: "CheckID"},
           name: {type: String, key: "Name"},
           status: {type: String, key: "Status"},
-          output: {type: String, key: "Output"}
+          output: {type: String, key: "Output"},
+          service_id: {type: String, key: "ServiceID", nilable: true},
+          service_name: {type: String, key: "ServiceName", nilable: true},
+          service_tags: {type: Array(String), key: "ServiceTags", nilable: true}
         )
       end
 
@@ -118,6 +121,25 @@ module Consul
           service_id: {type: String, key: "ServiceID"},
           service_name: {type: String, key: "ServiceName"},
           service_tags: {type: Array(String), key: "ServiceTags"}
+        )
+      end
+
+      class Service
+        JSON.mapping(
+          id: {type: String, key: "ID"},
+          service: {type: String, key: "Service"},
+          tags: {type: Array(String), key: "Tags"},
+          address: {type: String, key: "Address"},
+          port: {type: Int32, key: "Port"},
+          meta: {type: Hash(String, String), key: "Meta"},
+        )
+      end
+
+      class NodeService
+        JSON.mapping(
+          node: {type: Consul::Types::Catalog::Node, key: "Node"},
+          service: {type: Service, key: "Service"},
+          chekcs: {type: Array(Check), key: "Checks"}
         )
       end
     end

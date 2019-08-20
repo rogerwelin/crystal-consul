@@ -109,5 +109,5 @@ services = c.catalog.get_nodes_for_service(service: "service-example)
 
 ```crystal
 # get all nodes and port for a given service with a passing health check
-c.health.get_nodes_for_service(service: "service-example", filter: "Checks.Status == \"Passing\"")
+c.health.get_nodes_for_service(service: "service-example", filter: "'Checks.Status == passing'")
 ```
