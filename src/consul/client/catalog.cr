@@ -85,13 +85,24 @@ module Consul
     end
 
     # get_nodes_for_service returns the nodes providing a service in a given datacenter
-    def get_nodes_for_service(node : String, datacenter : String? = nil) : Array(Consul::Types::Catalog::NodeService)
+    def get_nodes_for_service(
+      service : String,
+      datacenter : String? = nil,
+      tag : String? = nil,
+      near : String? = nil,
+      node_meta : String? = nil,
+      filter : String? = nil
+    ) : Array(Consul::Types::Catalog::NodeService)
       endpoint = "/v1/catalog/service/#{service}"
       consistency = get_consistency()
 
       val = Consul::Util.build_query_params({
         "#{consistency}" => "",
         "dc"             => datacenter,
+        "tag"            => tag,
+        "near"           => near,
+        "node-meta"      => node_meta,
+        "filter"         => filter,
       })
 
       if val
@@ -104,22 +115,18 @@ module Consul
     end
 
     # get_services_for_node returns the node's registered services
-    def get_nodes_for_service(
-      service : String,
+    def get_service_for_node(
+      node : String,
       datacenter : String? = nil,
-      tag : String? = nil,
-      near : String? = nil,
-      node_meta : String? = nil
+      filter : String? = nil
     ) : Array(Consul::Types::Catalog::NodeService)
-      endpoint = "/v1/catalog/service/#{service}"
+      endpoint = "/v1/catalog/node/#{node}"
       consistency = get_consistency()
 
       val = Consul::Util.build_query_params({
         "#{consistency}" => "",
         "dc"             => datacenter,
-        "tag"            => tag,
-        "near"           => near,
-        "node-meta"      => node_meta,
+        "filter"         => filter,
       })
 
       if val
@@ -140,9 +147,11 @@ module Consul
     end
 
     # get_nodes returns the nodes registered in a given datacenter
-    def get_nodes(dc : String? = nil,
-                  near : String? = nil,
-                  node_meta : String? = nil) : Array(Consul::Types::Catalog::Node)
+    def get_nodes(
+      dc : String? = nil,
+      near : String? = nil,
+      node_meta : String? = nil
+    ) : Array(Consul::Types::Catalog::Node)
       endpoint = "/v1/catalog/nodes"
       consistency = get_consistency()
       val = Consul::Util.build_query_params({

@@ -56,7 +56,7 @@ module Consul
     end
 
     # get_nodes_for_service returns the nodes providing the service indicated on the path
-    # TO-DO: build up the url parameters
+    # TO-DO implement return type
     def get_nodes_for_service(
       service : String,
       datacenter : String? = nil,
@@ -91,7 +91,6 @@ module Consul
     end
 
     # get_checks_in_state returns the checks in the state provided on the path
-    # TO-DO: build up the url parameters
     def get_checks_in_state(
       state : String,
       datacenter : String? = nil,

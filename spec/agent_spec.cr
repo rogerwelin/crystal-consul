@@ -54,7 +54,7 @@ describe Consul do
       service.size.should eq 1
     end
 
-    it "should return service healh with expected type" do
+    it "should return service health with expected type" do
       c = Consul.client
       service_health = c.agent.get_service_health(name: "test-service")
       service_health.should be_a Array(Consul::Types::Agent::ServiceHealth)
@@ -96,11 +96,9 @@ describe Consul do
       check_id = checks["test-check"].check_id
 
       c.agent.deregister_check(check_id)
-      begin
+      expect_raises(KeyError) do
         ch = c.agent.get_checks
         ch["test-check"]
-      rescue ex : Exception
-        ex.should be_a KeyError
       end
     end
   end
