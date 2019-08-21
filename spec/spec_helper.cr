@@ -1,2 +1,2 @@
 require "spec"
-require "../src/consul"
+require "../src/crystal-consul"
