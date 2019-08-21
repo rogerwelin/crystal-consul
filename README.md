@@ -2,6 +2,8 @@
 
 [![Language](https://img.shields.io/badge/language-crystal-776791.svg)](https://github.com/crystal-lang/crystal)
 [![Build Status](https://travis-ci.org/rogerwelin/crystal-consul.svg?branch=master)](https://travis-ci.org/rogerwelin/crystal-consul)
+[![GitHub release](https://img.shields.io/github/release/rogerwelin/crystal-consul.svg)](https://github.com/rogerwelin/crystal-consul/releases)
+
 
 Crystal client for Consul HTTP API. For more information about the Consul HTTP API, go [here](https://www.consul.io/api/index.html).
 Crystal-consul does not use any depenencies outside stdlib, hence no transitive dependencies when you include it in your project. 
