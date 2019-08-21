@@ -6,30 +6,26 @@ module Consul
     # create_event triggers a new user event
     def create_event(
       name : String,
+      data : String,
       datacenter : String? = nil,
       node : String? = nil,
       service : String? = nil,
       tag : String? = nil
     ) : Consul::Types::Event::Event
-      data = {} of String => String
+      endpoint = "/v1/event/fire/#{name}"
 
-      unless datacenter.nil?
-        data["dc"] = datacenter
+      val = Consul::Util.build_query_params({
+        "dc"      => datacenter,
+        "node"    => node,
+        "service" => service,
+        "tag"     => tag,
+      })
+
+      if val
+        endpoint = "#{endpoint}#{val}"
       end
 
-      unless node.nil?
-        data["node"] = node
-      end
-
-      unless service.nil?
-        data["service"] = service
-      end
-
-      unless tag.nil?
-        data["tag"] = tag
-      end
-
-      resp = put("/v1/event/fire/#{name}", data: data.to_json)
+      resp = put("/v1/event/fire/#{name}", data: data)
       return Consul::Types::Event::Event.from_json(resp.body)
     end
 

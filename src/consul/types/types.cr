@@ -100,7 +100,7 @@ module Consul
         JSON.mapping(
           id: {type: String, key: "ID"},
           name: {type: String, key: "Name"},
-          payload: {type: String, key: "Payload"},
+          payload: {type: String, key: "Payload", nilable: true},
           node_filter: {type: String, key: "NodeFilter"},
           service_filter: {type: String, key: "ServiceFilter"},
           vesion: {type: Int32, key: "Version"},
