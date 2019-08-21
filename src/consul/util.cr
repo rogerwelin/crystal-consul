@@ -48,7 +48,8 @@ module Consul
 
     # build up a valid hash of non nil keys
     def build_hash(arg)
-      new_hash = {} of String => String | Int32
+      # new_hash = {} of String => String | (Int32, Hash(String, String), Consul::Service)
+      new_hash = {} of String => String
 
       arg.each do |key, val|
         unless val.nil?

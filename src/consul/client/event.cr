@@ -42,20 +42,15 @@ module Consul
     ) : Array(Consul::Types::Event::Event)
       endpoint = "/v1/event/list"
 
-      unless name.nil?
-        endpoint = "#{endpoint}?name=#{name}"
+      val = Consul::Util.build_query_params({
+        "name"    => name,
+        "node"    => node,
+        "service" => service,
+        "tag"     => tag,
+      })
 
-        unless node.nil?
-          endpoint = "#{endpoint}&node=#{node}"
-        end
-
-        unless service.nil?
-          endpoint = "#{endpoint}&service=#{service}"
-        end
-
-        unless tag.nil?
-          endpoint = "#{endpoint}&tag=#{tag}"
-        end
+      if val
+        endpoint = "#{endpoint}#{val}"
       end
 
       resp = get(endpoint)

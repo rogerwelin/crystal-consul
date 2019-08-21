@@ -29,8 +29,8 @@ describe Consul do
     end
 
     it "should return expected hash with no nil keys" do
-      given = {"ape" => "gorilla", "given" => nil, "number" => 8, "ip" => nil}
-      expected = {"ape" => "gorilla", "number" => 8}
+      given = {"ape" => "gorilla", "given" => nil, "number" => 8, "ip" => nil, "nested" => {"val" => 1}}
+      expected = {"ape" => "gorilla", "number" => 8, "nested" => {"val" => 1}}
       c = Consul::Util.build_hash(given)
       c.should eq expected
     end

@@ -16,27 +16,15 @@ module Consul
       check : Hash(String, String)? = nil,
       node_meta : Hash(String, String)? = nil
     )
-      data = {"Node" => node, "Address" => address}
-
-      unless id.nil?
-        data["ID"] = id
-      end
-
-      unless datacenter.nil?
-        data["Datacenter"] = datacenter
-      end
-
-      unless service.nil?
-        data = data.merge({"Service" => service})
-      end
-
-      unless check.nil?
-        data = data.merge({"Check" => check})
-      end
-
-      unless node_meta.nil?
-        data = data.merge({"NodeMeta" => service})
-      end
+      data = Consul::Util.build_hash({
+        "Node"       => node,
+        "Address"    => address,
+        "ID"         => id,
+        "Datacenter" => datacenter,
+        "Service"    => service,
+        "Check"      => check,
+        "NodeMeta"   => node_meta,
+      })
 
       put("/v1/catalog/register", data: data.to_json)
     end
@@ -49,19 +37,12 @@ module Consul
       check_id : String? = nil,
       service_id : String? = nil?
     )
-      data = {"Node" => node}
-
-      unless datacenter.nil?
-        data = data.merge({"Datacenter" => datacenter})
-      end
-
-      unless check_id.nil?
-        data = data.merge({"CheckID" => check_id})
-      end
-
-      unless service_id.nil?
-        data = data.merge({"ServiceID" => service_id})
-      end
+      data = Consul::Util.build_hash({
+        "Node"       => node,
+        "Datacenter" => datacenter,
+        "ServiceID"  => service_id,
+        "CheckID"    => check_id,
+      })
 
       put(client, "/v1/catalog/deregister", data: data.to_json)
     end
