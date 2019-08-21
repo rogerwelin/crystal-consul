@@ -46,6 +46,18 @@ module Consul
       return build_url
     end
 
+    # build up a valid hash of non nil keys
+    def build_hash(arg)
+      new_hash = {} of String => String | Int32
+
+      arg.each do |key, val|
+        unless val.nil?
+          new_hash = new_hash.merge({key => val})
+        end
+      end
+      return new_hash
+    end
+
     def validate_response(resp : HTTP::Client::Response)
       case resp.status_code
       when 400 then raise Consul::Error::BadRequest.new(resp)
