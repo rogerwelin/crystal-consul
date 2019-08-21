@@ -23,7 +23,7 @@ Crystal-consul does not use any depenencies outside stdlib, hence no transitive 
 ## Example Usage
 
 ```crystal
-require "consul"
+require "crystal-consul"
 
 # create a default client
 c = Consul.client()
