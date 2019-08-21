@@ -55,24 +55,24 @@ For more examples and usage view [the example page](https://github.com/rogerweli
 Implemented endpoints implements all consistency modes, filter options and query parameters as specified by Consul HTTP API doc.
 
 #### Completed  
-* Agent
-* Catalog
-* Coordinates
-* Events
-* Health
-* KV Store
-* Snapshots
-* Status
+- [x] Agent
+- [x] KV Store
+- [x] Catalog
+- [x] Coordinates
+- [x] Events
+- [x] Health
+- [x] Snapshots
+- [x] Status
+
 
 #### TO-DO  
-* ACLs
-* Config
-* Connect
-* Operator
-* Prepared Queries
-* Sessions
-* Transactions
-
+- [ ] ACLs
+- [ ] Config
+- [ ] Connect
+- [ ] Operator
+- [ ] Prepared Queries
+- [ ] Sessions
+- [ ] Transactions
 
 ## Testing
 
