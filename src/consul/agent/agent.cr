@@ -12,7 +12,7 @@ module Consul
     end
 
     def get_services(filter : String) : Hash(String, Consul::Types::Agent::Service)
-      filter = URI.encode(filter)
+      filter = URI.escape(filter)
       resp = get("/v1/agent/services?filter=#{filter}")
       return Hash(String, Consul::Types::Agent::Service).from_json(resp.body)
     end
@@ -46,7 +46,7 @@ module Consul
     # During maintenance mode, the service will be marked as unavailable and will not be present in DNS or API queries
     def set_service_maintenenance(service_id : String, enable : Bool, reason = "")
       if reason != ""
-        reason = URI.encode(reason)
+        reason = URI.escape(reason)
         put("/v1/agent/service/maintenance/#{service_id}?enable=#{enable}&reason=#{reason}")
       else
         put("/v1/agent/service/maintenance/#{service_id}?enable=#{enable}")
@@ -60,7 +60,7 @@ module Consul
     end
 
     def get_checks(filter : String) : Hash(String, Consul::Types::Agent::Check)
-      filter = URI.encode(filter)
+      filter = URI.escape(filter)
       resp = get("/v1/agent/checks?filter=#{filter}")
       return Hash(String, Consul::Types::Agent::Check).from_json(resp.body)
     end
