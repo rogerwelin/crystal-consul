@@ -34,7 +34,7 @@ module Consul
             build_url = "?#{val}"
           else
             if val.includes?("filter=")
-              val = URI.encode(val)
+              val = URI.escape(val)
               build_url = "#{build_url}&#{val}"
             else
               build_url = "#{build_url}&#{val}"
