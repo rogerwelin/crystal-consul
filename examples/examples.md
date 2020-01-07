@@ -49,7 +49,7 @@ service.name = "service-example"
 service.tags = ["master"]
 service.address = "10.42.10.11"
 service.port = 9922
-service.check = {"HTTP" => "http://localhost:9922", "Interval" => "10s}
+service.check = {"HTTP" => "http://localhost:9922", "Interval" => "10s"}
 
 c.agent.register_service(service)
 
