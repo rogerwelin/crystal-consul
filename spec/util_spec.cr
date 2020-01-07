@@ -19,7 +19,7 @@ describe Consul do
 
     it "should return a valid url encoded filter query params" do
       c = Consul::Util.build_query_params({"service" => "service-x", "filter" => "Meta.env == qa"})
-      c.should eq "?service=service-x&filter%3DMeta.env%20%3D%3D%20qa"
+      c.should eq "?service=service-x&filter=Meta.env%20==%20qa"
     end
 
     it "should return expected hash" do

@@ -28,7 +28,7 @@ describe Consul do
 
     it "should return nodes with given filter" do
       c = Consul.client
-      node = c.health.get_nodes_for_service(service: "service2", filter: "'Checks.Status == passing'")
+      node = c.health.get_nodes_for_service(service: "service2", filter: "Checks.Status == passing")
       node.size.should eq 1
     end
   end
