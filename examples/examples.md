@@ -101,7 +101,7 @@ c.catalog.get_services()
 # {"consul" => [], "service-example" => ["master"]]}
 
 # get all nodes and port for a given service
-services = c.catalog.get_nodes_for_service(service: "service-example)
+services = c.catalog.get_nodes_for_service(service: "service-example")
 # [#<Consul::Types::Catalog::NodeService:0x7fc638f369a0 @id="3912fc6d-2033-ab35-1e7b-dcf8bf92340b", @node="50332f402c14", @address="127.0.0.1", @datacenter="dc1", @tagged_addresses={"lan" => "127.0.0.1", "wan" => "127.0.0.1"}, @node_meta={"consul-network-segment" => ""}, @service_id="service-example", @service_name="service-example", @service_tags=["master"], @service_address="10.42.10.11", @service_meta={}, @service_port=9922>]
 ```
 
