@@ -1,9 +1,9 @@
 name: crystal-consul
-version: 0.1.2
+version: 0.1.3
 
 authors:
   - Roger Welin <roger.welin@icloud.com>
 
-crystal: 0.32.1
+crystal: 0.34.0
 
 license: MIT

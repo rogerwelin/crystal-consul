@@ -68,6 +68,7 @@ module Consul
       when 404 then raise Consul::Error::NotFound.new(resp)
       when 413 then raise Consul::Error::PayloadTooLarge.new(resp)
       when 500 then raise Consul::Error::InternalServerError.new(resp)
+      else
       end
     end
   end
