@@ -1,7 +1,7 @@
 require "./consul/*"
 
 module Consul
-  VERSION = "0.1.0"
+  VERSION = "0.1.3"
 
   # shortcut for Consul::Client
   def self.client(
